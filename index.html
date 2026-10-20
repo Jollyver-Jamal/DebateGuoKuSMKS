@@ -157,6 +157,7 @@ button.tag{cursor:pointer}
 .tag.dom{color:var(--acc);border-color:color-mix(in srgb,var(--acc) 45%,var(--line))}
 .tag.form{color:var(--acc2);border-color:color-mix(in srgb,var(--acc2) 45%,var(--line))}
 .tag.ver{color:var(--ok);border-color:var(--ok)}
+.tag.yr{color:var(--fg);font-variant-numeric:tabular-nums}
 .tag.pend{color:var(--warn);border-color:color-mix(in srgb,var(--warn) 55%,var(--line))}
 .tag.mod{color:var(--warn);border-color:var(--warn)}
 .tag.mod:hover{background:var(--bg3)}
@@ -395,11 +396,11 @@ var DOMAINS=['政治与选举','国家与国际关系','经济发展与金融','
 var FORMS=['统计数据','研究论文','报告','新闻','调查与民调','案例实证','书籍专著','名人名言','逻辑推演','其他'];
 var DMAP={'选举与政治':'政治与选举','政治与国际关系':'国家与国际关系','国家':'国家与国际关系','经济发展':'经济发展与金融','经济与金融':'经济发展与金融','正义':'公平与正义','公平与公正':'公平与正义','教育与青年':'教育与校园','科技':'科技与人工智能','人工智能':'科技与人工智能','心理':'心理与行为','媒体/社交媒体':'媒体与文化','文化与传媒':'媒体与文化'};
 var FMAP={'数据':'统计数据','统计':'统计数据','学术论文':'研究论文','研究':'研究论文','官方报告':'报告','新闻报道':'新闻','民调':'调查与民调','调查':'调查与民调'};
-function normCat(e){if(DMAP[e.domain])e.domain=DMAP[e.domain];if(FMAP[e.form])e.form=FMAP[e.form]}
+function normCat(e){if(DMAP[e.domain])e.domain=DMAP[e.domain];if(FMAP[e.form])e.form=FMAP[e.form];if(e.year===undefined)e.year=null;if(e.srcName===undefined)e.srcName=''}
 var ROLE={visitor:'游客',member:'普通会员',contributor:'授权贡献者',admin:'官方管理员'};
 var RANK={visitor:0,member:1,contributor:2,admin:3};
 var KEYS={'SMK2026':'contributor','GK2026_ADMIN':'admin'};
-var DAY=864e5, LIMIT=3;
+var DAY=864e5, LIMIT=3, YMAX=new Date().getFullYear();
 var VORDER=['hall','court','settings'];
 var PALETTES=[
   {id:'auto',name:'自动配对',desc:'夜间黑曜蓝，白天暖沙色'},
@@ -458,18 +459,21 @@ function seed(){
   var o=mk(T7,'亲子关系','研究',u('https://www.apa.org/'),'研究指出，高控制、低温暖的教养方式与青少年焦虑症状相关，而稳定的情感支持是常被报告的保护因素。','辩手甲',12,{up:['辩手丙','评委B']});
   var p=mk(T7,'青少年','调查',f('亲子网络使用约定_访谈整理.pdf','1.4 MB'),'访谈与问卷显示，亲子之间就网络使用共同制定的约定，比单方面限制更容易被青少年接受并长期遵守。','评委B',3,{up:['辩手甲']});
   var q=mk(T8,'选举与政治','统计',u('https://www.idea.int/'),'国际民主与选举援助学会的投票率数据显示，实行强制投票的国家整体投票率通常高于自愿投票的国家，但比较时需区分选民登记制度与计票口径。','教练A',18,{verified:true,up:['辩手乙','辩手丙','评委B']});
-  var all=[a,b,c,d,e,g,h,i,j,k,l,m,o,p,q];all.forEach(normCat);
-  return {v:3,entries:all,log:[],court:[]};
+  var all=[a,b,c,d,e,g,h,i,j,k,l,m,o,p,q];
+  var Y=[2025,2026,2024,2023,2022,2024,2012,2025,2023,2024,2025,2023,2022,2024,2024];
+  var S=['联合国教科文组织','联合国教科文组织','皮尤研究中心','《自然》期刊','青少年网络使用调查摘要','世界卫生组织欧洲区域办公室','美国国家科学院','各国死刑现状整理','世界银行','国际劳工组织','世界银行','欧盟委员会','美国心理学会','亲子网络使用约定访谈整理','国际民主与选举援助学会'];
+  all.forEach(function(en,ix){en.year=Y[ix];en.srcName=S[ix];en.versions.forEach(function(v){v.year=en.year;v.srcName=en.srcName});normCat(en)});
+  return {v:4,entries:all,log:[],court:[]};
 }
 
 /* ---------- state ---------- */
 var DB=store.get('dv_db',null);
 if(!DB||!DB.entries){DB=seed()}
-else if(!DB.v||DB.v<2){
-  /* earlier format: each card had its own title; that title becomes the data title */
+else if(!DB.v||DB.v<4){
+  /* earlier format: your own entries are kept (a per-card title becomes the data title); demo entries are replaced by the new demo set that carries year and source */
   var old=DB,keep=(old.entries||[]).filter(function(e){return String(e.id).charAt(0)!=='s'}).map(function(e){
     e.topic=e.title||e.topic;delete e.title;
-    (e.versions||[]).forEach(function(v){v.topic=v.title||e.topic;delete v.title});return e});
+    (e.versions||[]).forEach(function(v){v.topic=v.title||v.topic||e.topic;delete v.title});return e});
   DB=seed();DB.entries=DB.entries.concat(keep);DB.log=old.log||[];DB.court=old.court||[];
 }
 if(!DB.log)DB.log=[]; if(!DB.court)DB.court=[];
@@ -546,7 +550,7 @@ function tokens(){return ui.q.trim().toLowerCase().split(/\s+/).filter(Boolean)}
 function subseq(t,h){var i=0;for(var j=0;j<h.length&&i<t.length;j++)if(h[j]===t[i])i++;return i===t.length}
 function matchQ(e){
   var ts=tokens();if(!ts.length)return true;
-  var full=(e.topic+' '+e.content+' '+e.domain+' '+e.form+' '+e.author).toLowerCase();
+  var full=(e.topic+' '+e.content+' '+e.domain+' '+e.form+' '+e.author+' '+(e.year||'')+' '+(e.srcName||'')).toLowerCase();
   var short=(e.topic+' '+e.domain+' '+e.form).toLowerCase();
   return ts.every(function(t){return full.indexOf(t)>-1||(t.length>=2&&subseq(t,short))});
 }
@@ -562,7 +566,7 @@ function sortE(a){
   var s=ui.sort;
   return a.slice().sort(function(x,y){
     if(s==='hot')return score(y)-score(x)||y.ts-x.ts;
-    if(s==='dispute')return y.appeals.length-x.appeals.length||y.ts-x.ts;
+    if(s==='year')return (y.year||0)-(x.year||0)||y.ts-x.ts;
     return y.ts-x.ts;
   });
 }
@@ -572,7 +576,7 @@ function groups(list){
   var gs=order.map(function(t){return {t:t,a:sortE(m[t])}});
   var key=function(g){
     if(ui.sort==='hot')return g.a.reduce(function(s,e){return s+score(e)},0);
-    if(ui.sort==='dispute')return g.a.reduce(function(s,e){return s+e.appeals.length},0)*1e13+Math.max.apply(null,g.a.map(function(e){return e.ts}));
+    if(ui.sort==='year')return Math.max.apply(null,g.a.map(function(e){return e.year||0}))*1e4+Math.max.apply(null,g.a.map(function(e){return e.ts}))/1e9;
     return Math.max.apply(null,g.a.map(function(e){return e.ts}));
   };
   return gs.sort(function(x,y){return key(y)-key(x)});
@@ -611,13 +615,14 @@ function renderSide(){
 
 /* ---------- rendering: hall ---------- */
 function srcHTML(e){
-  if(e.src.t==='url')return '<a class="src" href="'+esc(e.src.v)+'" target="_blank" rel="noopener noreferrer" title="'+esc(e.src.v)+'">'+ic('link')+'<span>'+esc(host(e.src.v))+'</span></a>';
-  return '<button class="src" data-act="dl" data-id="'+e.id+'" title="点击下载（模拟）">'+ic('file')+'<span>'+esc(e.src.v)+'</span>'+(e.src.size?'<em>'+esc(e.src.size)+'</em>':'')+'</button>';
+  var nm=e.srcName||'';
+  if(e.src.t==='url')return '<a class="src" href="'+esc(e.src.v)+'" target="_blank" rel="noopener noreferrer" title="'+esc(e.src.v)+'">'+ic('link')+'<span>'+esc(nm||host(e.src.v))+'</span>'+(nm?'<em>'+esc(host(e.src.v))+'</em>':'')+'</a>';
+  return '<button class="src" data-act="dl" data-id="'+e.id+'" title="'+esc('文件：'+e.src.v+'（点击下载，模拟）')+'">'+ic('file')+'<span>'+esc(nm||e.src.v)+'</span>'+(e.src.size?'<em>'+esc(e.src.size)+'</em>':'')+'</button>';
 }
 function cardHTML(e){
   var me=cu(),mn=me?me.name:null,ap=e.appeals.length;
   var up=mn&&e.up.indexOf(mn)>-1,dn=mn&&e.down.indexOf(mn)>-1;
-  var tags='<span class="tag dom">'+esc(e.domain)+'</span><span class="tag form">'+esc(e.form)+'</span>'+
+  var tags='<span class="tag dom">'+esc(e.domain)+'</span><span class="tag form">'+esc(e.form)+'</span>'+(e.year?'<span class="tag yr" title="论据年份">'+e.year+' 年</span>':'')+
     (e.verified?'<span class="tag ver">'+ic('check')+'官方已核实</span>':'<span class="tag pend">'+ic('clock')+'待核验数据</span>');
   if(ap)tags+='<span class="tag flagged" title="'+ap+' 人质询">'+ic('flag')+'[被上诉] '+ap+'人</span>';
   if(e.offline)tags+='<span class="tag offt">已下架</span>';
@@ -625,7 +630,7 @@ function cardHTML(e){
     '<div class="card-h"><div class="tags">'+tags+'</div><button class="dots" data-act="menu" data-id="'+e.id+'" aria-haspopup="menu" aria-expanded="false" aria-label="更多操作">'+DOTS+'</button></div>'+
     '<p class="body">'+hl(e.content)+'</p>'+
     '<div class="card-f"><div class="srcrow"><span class="lab2">出处:</span>'+srcHTML(e)+'</div>'+
-    '<div class="meta"><span>'+esc(e.author)+'</span><span class="time">'+ic('clock')+'时间: '+fmt(e.ts)+'</span>'+
+    '<div class="meta"><span>'+esc(e.author)+'</span><span class="time">'+ic('clock')+'录入时间: '+fmt(e.ts)+'</span>'+
     (e.versions.length>1?'<button class="tag mod" data-act="hist" data-id="'+e.id+'" title="查看修改历史">[已修改]</button>':'')+
     '<button class="vote up'+(up?' on':'')+'" data-act="vote" data-v="up" data-id="'+e.id+'" aria-pressed="'+!!up+'" aria-label="点赞">'+ic('up')+'<span class="cn">'+e.up.length+'</span></button>'+
     '<button class="vote down'+(dn?' on':'')+'" data-act="vote" data-v="down" data-id="'+e.id+'" aria-pressed="'+!!dn+'" aria-label="点踩">'+ic('down')+'<span class="cn">'+e.down.length+'</span></button></div></div>'+
@@ -635,7 +640,7 @@ function renderHall(){
   var gs=groups(filtered());
   var h='<div class="toolbar"><button class="btn pri sm" data-act="new">'+(rk()>=2?ic('plus'):ic('lock'))+'录入新资料</button>'+
     '<button class="btn sm" data-act="expand">全部展开</button><button class="btn sm" data-act="collapse">全部收起</button><span class="grow"></span>'+
-    '<label class="hint" for="sort">排序</label><select class="sel" id="sort"><option value="new">最新录入</option><option value="hot">口碑热度</option><option value="dispute">争议优先</option></select></div>';
+    '<label class="hint" for="sort">组内排序</label><select class="sel" id="sort"><option value="new">录入时间（最新）</option><option value="year">论据年份（最新）</option><option value="hot">点赞数量（最多）</option></select></div>';
   var chips='';
   if(ui.dom)chips+='<span class="fchip">'+esc(ui.dom)+'<button data-act="dom" data-v="" aria-label="清除领域筛选">'+ic('close')+'</button></span>';
   if(ui.form)chips+='<span class="fchip">'+esc(ui.form)+'<button data-act="form" data-v="" aria-label="清除形式筛选">'+ic('close')+'</button></span>';
@@ -860,9 +865,11 @@ function openNew(){
   var srcT='url';
   modal({title:'录入新资料',wide:true,
     body:'<div class="field"><label for="n-topic">数据标题</label><input class="in" id="n-topic" list="n-topics" maxlength="80" placeholder="输入标题；与已有标题相同的资料会汇集在同一组"><datalist id="n-topics">'+Object.keys(topics).map(function(t){return '<option value="'+esc(t)+'">'}).join('')+'</datalist></div>'+
-      '<div class="field"><label for="n-body">数据内容</label><textarea class="ta" id="n-body" maxlength="800" placeholder="写下具体数据或论据，并注明统计年份、地区与口径"></textarea></div>'+
+      '<div class="field"><label for="n-body">数据内容</label><textarea class="ta" id="n-body" maxlength="800" placeholder="写下具体数据或论据，并注明地区与统计口径"></textarea></div>'+
+      '<div class="row2"><div class="field"><label for="n-year">论据年份（必填）</label><input class="in" id="n-year" type="number" inputmode="numeric" min="1900" max="'+YMAX+'" step="1" placeholder="数据的统计年份，如 '+(YMAX-1)+'"></div>'+
+      '<div class="field"><label for="n-sname">数据来源（必填）</label><input class="in" id="n-sname" maxlength="60" placeholder="机构、期刊或文献名称"></div></div>'+
       '<div class="row2"><div class="field"><label for="n-dom">核心领域</label><select class="in" id="n-dom">'+opts(DOMAINS)+'</select></div><div class="field"><label for="n-form">资料形式</label><select class="in" id="n-form">'+opts(FORMS)+'</select></div></div>'+
-      '<div class="field"><span class="lab">出处类型</span><div class="seg" id="n-seg"><button type="button" class="on" data-s="url">网页链接</button><button type="button" data-s="file">文献文件</button></div></div>'+
+      '<div class="field"><span class="lab">出处凭证（必填）</span><div class="seg" id="n-seg"><button type="button" class="on" data-s="url">网页链接</button><button type="button" data-s="file">文献文件</button></div></div>'+
       '<div class="field" id="n-urlw"><label for="n-url">网址</label><input class="in" id="n-url" type="url" placeholder="https://"></div>'+
       '<div class="field" id="n-filew" hidden><label for="n-file">PDF / Word 文件</label><input class="in" id="n-file" type="file" accept=".pdf,.doc,.docx"><div class="hint">仅记录文件名与大小，不会上传文件内容。</div></div>'+
       '<div class="err" id="n-e" role="alert"></div>',
@@ -871,12 +878,15 @@ function openNew(){
       function bad(m){err.textContent=m;return false}
       if(!t)return bad('请填写数据标题');
       if(bo.length<10)return bad('数据内容至少 10 个字');
+      var yr=parseInt($('#n-year').value,10),sn=$('#n-sname').value.trim();
+      if(!isFinite(yr)||yr<1900||yr>YMAX)return bad('请填写论据年份（1900–'+YMAX+'）');
+      if(sn.length<2)return bad('请填写数据来源名称，例如机构、期刊或文献名');
       var src;
       if(srcT==='url'){var u=$('#n-url').value.trim();if(!/^https?:\/\/[^\s.]+\.[^\s]+$/i.test(u))return bad('请输入以 http:// 或 https:// 开头的有效网址');src={t:'url',v:u}}
       else{var fl=$('#n-file').files[0];if(!fl)return bad('请选择一个 PDF 或 Word 文件');if(!/\.(pdf|docx?)$/i.test(fl.name))return bad('仅支持 PDF / Word 文件');src={t:'file',v:fl.name,size:fsize(fl.size)}}
       var now=Date.now(),me=cu();
-      DB.entries.push({id:uid(),topic:t,content:bo,domain:$('#n-dom').value,form:$('#n-form').value,src:src,author:me.name,ts:now,up:[],down:[],verified:false,offline:false,
-        versions:[{v:1,ts:now,user:me.name,topic:t,content:bo,note:'初始录入'}],appeals:[]});
+      DB.entries.push({id:uid(),topic:t,content:bo,domain:$('#n-dom').value,form:$('#n-form').value,year:yr,srcName:sn,src:src,author:me.name,ts:now,up:[],down:[],verified:false,offline:false,
+        versions:[{v:1,ts:now,user:me.name,topic:t,content:bo,year:yr,srcName:sn,note:'初始录入'}],appeals:[]});
       save();closeModal();delete ui.collapsed[t];flipHall(render);toast('资料已入库','ok');
     }}],
     onOpen:function(ov){
@@ -892,14 +902,19 @@ function openEdit(e){
   modal({title:'修正论据内容',wide:true,
     body:'<div class="field"><label for="e-topic">数据标题</label><input class="in" id="e-topic" maxlength="80" value="'+esc(e.topic)+'"></div>'+
       '<div class="field"><label for="e-body">数据内容</label><textarea class="ta" id="e-body" maxlength="800">'+esc(e.content)+'</textarea></div>'+
+      '<div class="row2"><div class="field"><label for="e-year">论据年份（必填）</label><input class="in" id="e-year" type="number" inputmode="numeric" min="1900" max="'+YMAX+'" step="1" value="'+(e.year||'')+'"></div>'+
+      '<div class="field"><label for="e-sname">数据来源（必填）</label><input class="in" id="e-sname" maxlength="60" value="'+esc(e.srcName||'')+'"></div></div>'+
       '<div class="field"><label for="e-note">修改说明</label><input class="in" id="e-note" maxlength="60" placeholder="例如：更正数据口径、补充限定语"></div>'+
       '<div class="note">每次修正都会生成新版本并保留在修改时间轴中，原版本不可删除。修改数据标题会让这条资料移到新的标题分组。</div><div class="err" id="e-e" role="alert"></div>',
     actions:[{label:'取消'},{label:'保存修正',cls:'pri',keep:true,fn:function(){
       var t=$('#e-topic').value.trim(),bo=$('#e-body').value.trim(),note=$('#e-note').value.trim()||'内容修正';
+      var yr=parseInt($('#e-year').value,10),sn=$('#e-sname').value.trim();
       if(!t||bo.length<10){$('#e-e').textContent='标题不能为空，内容至少 10 个字';return false}
-      if(t===e.topic&&bo===e.content){$('#e-e').textContent='未检测到任何改动';return false}
-      e.topic=t;e.content=bo;
-      e.versions.push({v:e.versions.length+1,ts:Date.now(),user:cu().name,topic:t,content:bo,note:note});
+      if(!isFinite(yr)||yr<1900||yr>YMAX){$('#e-e').textContent='请填写论据年份（1900–'+YMAX+'）';return false}
+      if(sn.length<2){$('#e-e').textContent='请填写数据来源名称';return false}
+      if(t===e.topic&&bo===e.content&&yr===e.year&&sn===e.srcName){$('#e-e').textContent='未检测到任何改动';return false}
+      e.topic=t;e.content=bo;e.year=yr;e.srcName=sn;
+      e.versions.push({v:e.versions.length+1,ts:Date.now(),user:cu().name,topic:t,content:bo,year:yr,srcName:sn,note:note});
       save();closeModal();flipHall(render);toast('已保存为第 '+e.versions.length+' 版','ok');
     }}]});
 }
@@ -907,7 +922,7 @@ function openHist(e){
   var vs=e.versions.slice().reverse();
   modal({title:'修改历史',wide:true,
     body:'<div class="hint">'+esc(e.topic)+' · 共 '+e.versions.length+' 个版本</div><ol class="timeline">'+
-      vs.map(function(v,i){return '<li'+(i===0?' class="cur"':'')+'><div class="tl-h"><b>V'+v.v+'</b>'+(i===0?'<span class="tag ver">当前版本</span>':'')+'<span>'+fmt(v.ts)+'</span><span>'+esc(v.user)+'</span><span class="tag">'+esc(v.note)+'</span></div><div class="tl-c"><small>标题：'+esc(v.topic||v.title||e.topic)+'</small>'+esc(v.content)+'</div></li>'}).join('')+'</ol>',
+      vs.map(function(v,i){return '<li'+(i===0?' class="cur"':'')+'><div class="tl-h"><b>V'+v.v+'</b>'+(i===0?'<span class="tag ver">当前版本</span>':'')+'<span>'+fmt(v.ts)+'</span><span>'+esc(v.user)+'</span><span class="tag">'+esc(v.note)+'</span></div><div class="tl-c"><small>标题：'+esc(v.topic||v.title||e.topic)+(v.year?' · '+v.year+' 年':'')+(v.srcName?' · 来源：'+esc(v.srcName):'')+'</small>'+esc(v.content)+'</div></li>'}).join('')+'</ol>',
     actions:[{label:'关闭',cls:'pri'}]});
 }
 
@@ -1173,7 +1188,7 @@ document.addEventListener('click',function(ev){
     case 'm-edit':openEdit(e);break;
     case 'm-appeal':openAppeal(e);break;
     case 'm-withdraw':doWithdraw(e);break;
-    case 'm-copy':copyText('「'+e.topic+'」'+snip(e.content,60)+'｜出处：'+(e.src.t==='url'?e.src.v:e.src.v+'（文献文件）')+'｜录入：'+e.author+' '+fmt(e.ts)+'｜国库 DEBATE VAULT','已复制引用格式');break;
+    case 'm-copy':copyText('「'+e.topic+'」'+snip(e.content,60)+'｜'+(e.year?e.year+' 年｜':'')+'来源：'+(e.srcName?e.srcName+'，':'')+(e.src.t==='url'?e.src.v:e.src.v+'（文献文件）')+'｜录入：'+e.author+' '+fmt(e.ts)+'｜国库 DEBATE VAULT','已复制引用格式');break;
     case 'm-verify':e.verified=!e.verified;save();render();toast(e.verified?'已标记为官方已核实':'已取消官方核实','ok');break;
     case 'm-offline':e.offline=!e.offline;save();render();toast(e.offline?'资料已下架，普通用户不可见':'资料已重新上架','ok');break;
     case 'vote':{
