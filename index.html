@@ -1,0 +1,1926 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
+<title>国库 DEBATE VAULT</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap">
+<style>
+/* Layout: full-bleed console. Sticky top bar, facet sidebar (hall only), and a main stage that swaps between Hall, Court and Settings. Hall = groups headed by a data title, each group a flat list of data rows. Colors are generated from a palette's hue/saturation so every scheme stays low-saturation in both modes. */
+:root{
+  --h:222; --s:24%; --ha:196; --as:42%;
+  --bg:hsl(var(--h) var(--s) 9%); --bg2:hsl(var(--h) var(--s) 12%); --bg3:hsl(var(--h) var(--s) 16.5%);
+  --line:hsl(var(--h) calc(var(--s) * .8) 22%); --fg:hsl(var(--h) 18% 86%); --fg2:hsl(var(--h) 11% 63%);
+  --acc:hsl(var(--ha) var(--as) 66%); --acc-ink:hsl(var(--h) 30% 9%); --acc2:hsl(calc(var(--ha) + 55) calc(var(--as) * .8) 70%);
+  --ok:hsl(150 28% 62%); --warn:hsl(38 44% 66%); --bad:hsl(2 52% 68%);
+  --glass:hsl(var(--h) var(--s) 11% / .86); --shadow:0 14px 40px hsl(var(--h) 40% 3% / .55);
+  --bad-glow:hsl(2 60% 60% / .35); --acc-glow:hsl(var(--ha) 50% 60% / .22);
+  --f-display:'Chakra Petch','Noto Sans SC',system-ui,sans-serif;
+  --f-body:'Noto Sans SC',system-ui,-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;
+  --f-mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  color-scheme:dark;
+}
+@media (prefers-color-scheme:light){
+  :root:not([data-theme="dark"]){
+    --bg:hsl(var(--h) calc(var(--s) * 1.3) 90%); --bg2:hsl(var(--h) calc(var(--s) * 1.3) 93.5%); --bg3:hsl(var(--h) calc(var(--s) * 1.25) 85.5%);
+    --line:hsl(var(--h) var(--s) 77%); --fg:hsl(var(--h) 22% 17%); --fg2:hsl(var(--h) 14% 37%);
+    --acc:hsl(var(--ha) calc(var(--as) + 8%) 32%); --acc-ink:hsl(var(--h) 30% 95%); --acc2:hsl(calc(var(--ha) + 55) calc(var(--as) * .8) 38%);
+    --ok:hsl(150 34% 28%); --warn:hsl(34 62% 29%); --bad:hsl(2 50% 42%);
+    --glass:hsl(var(--h) calc(var(--s) * 1.3) 93.5% / .86); --shadow:0 12px 32px hsl(var(--h) 30% 20% / .16);
+    --bad-glow:hsl(2 55% 50% / .28); --acc-glow:hsl(var(--ha) 40% 40% / .2); color-scheme:light;
+  }
+}
+:root[data-theme="light"]{
+  --bg:hsl(var(--h) calc(var(--s) * 1.3) 90%); --bg2:hsl(var(--h) calc(var(--s) * 1.3) 93.5%); --bg3:hsl(var(--h) calc(var(--s) * 1.25) 85.5%);
+  --line:hsl(var(--h) var(--s) 77%); --fg:hsl(var(--h) 22% 17%); --fg2:hsl(var(--h) 14% 37%);
+  --acc:hsl(var(--ha) calc(var(--as) + 8%) 32%); --acc-ink:hsl(var(--h) 30% 95%); --acc2:hsl(calc(var(--ha) + 55) calc(var(--as) * .8) 38%);
+  --ok:hsl(150 34% 28%); --warn:hsl(34 62% 29%); --bad:hsl(2 50% 42%);
+  --glass:hsl(var(--h) calc(var(--s) * 1.3) 93.5% / .86); --shadow:0 12px 32px hsl(var(--h) 30% 20% / .16);
+  --bad-glow:hsl(2 55% 50% / .28); --acc-glow:hsl(var(--ha) 40% 40% / .2); color-scheme:light;
+}
+:root[data-palette="obsidian"]{--h:222;--s:24%;--ha:196;--as:42%}
+:root[data-palette="sand"]{--h:36;--s:20%;--ha:30;--as:40%}
+:root[data-palette="moss"]{--h:140;--s:14%;--ha:150;--as:30%}
+:root[data-palette="dusk"]{--h:268;--s:16%;--ha:285;--as:32%}
+:root[data-palette="graphite"]{--h:210;--s:7%;--ha:205;--as:26%}
+:root[data-palette="pine"]{--h:184;--s:18%;--ha:172;--as:34%}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font:14px/1.65 var(--f-body);padding:0}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+a{color:var(--acc)}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+mark{background:var(--acc);color:var(--acc-ink);border-radius:3px;padding:0 2px}
+svg.ic{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+:root[data-motion="reduce"] *,:root[data-motion="reduce"] *::before,:root[data-motion="reduce"] *::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+
+.app{min-height:100vh;display:flex;flex-direction:column;background:transparent;position:relative;z-index:1}
+
+/* Top console */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+  padding-block:12px;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px));
+  background:var(--glass);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:10px;margin-right:6px;min-width:0;background:none;border:0;padding:0;text-align:left}
+.brand svg{width:34px;height:34px;flex:none}
+.brand b{display:block;font:700 20px/1 var(--f-display);letter-spacing:.12em}
+.brand small{display:block;font:500 9.5px/1.2 var(--f-mono);letter-spacing:.32em;color:var(--acc);margin-top:3px}
+.search{flex:1 1 260px;min-width:0;display:flex;align-items:center;gap:8px;background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:0 12px;height:40px}
+.search:focus-within{border-color:var(--acc);box-shadow:0 0 0 3px var(--acc-glow)}
+.search input{flex:1;min-width:0;background:none;border:0;outline:0;height:100%}
+.search input::placeholder{color:var(--fg2)}
+.kbd{font:500 11px var(--f-mono);border:1px solid var(--line);border-radius:5px;padding:0 6px;color:var(--fg2)}
+.ctl{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;height:38px;padding:0 14px;border-radius:9px;border:1px solid var(--line);background:var(--bg2);font-weight:500;white-space:nowrap;transition:border-color .15s,background .15s}
+.btn:hover{border-color:var(--acc);background:var(--bg3)}
+.btn.pri{background:var(--acc);border-color:var(--acc);color:var(--acc-ink);font-weight:700}
+.btn.pri:hover{filter:brightness(1.06)}
+.btn.danger{border-color:var(--bad);color:var(--bad)}
+.btn.solid-danger{background:var(--bad);border-color:var(--bad);color:var(--acc-ink);font-weight:700}
+.btn.ok{border-color:var(--ok);color:var(--ok)}
+.btn.sm{height:30px;padding:0 10px;font-size:12.5px;border-radius:8px}
+.btn.sq{width:38px;padding:0}
+.btn[aria-current="page"]{border-color:var(--acc);color:var(--acc);background:var(--bg3)}
+.badge{min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:var(--bad);color:var(--acc-ink);font:700 11px/18px var(--f-mono);text-align:center}
+.role{font:500 11.5px var(--f-mono);letter-spacing:.04em;padding:2px 8px;border-radius:6px;border:1px solid currentColor}
+.role.visitor{color:var(--fg2)} .role.member{color:var(--acc)} .role.contributor{color:var(--ok)} .role.admin{color:var(--warn)}
+.only-m{display:none}
+
+/* Layout */
+.layout{flex:1;display:grid;grid-template-columns:272px minmax(0,1fr)}
+.layout.nosb{grid-template-columns:minmax(0,1fr)}
+.layout.nosb .side{display:none}
+.side{border-right:1px solid var(--line);padding-block:16px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:14px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 65px);align-self:start;max-height:calc(100vh - 66px);overflow:auto}
+.sg{margin-bottom:14px}
+.sg-h{width:100%;display:flex;align-items:center;justify-content:space-between;background:none;border:0;padding:6px 8px;font:600 11.5px var(--f-mono);letter-spacing:.14em;color:var(--fg2)}
+.sg-h .ic{transition:transform .2s}
+.sg.shut .sg-h .ic{transform:rotate(-90deg)}
+.sg.shut .sg-list{display:none}
+.fi{width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;background:none;border:1px solid transparent;border-radius:8px;padding:6px 10px;text-align:left}
+.fi:hover{background:var(--bg2)}
+.fi.on{background:var(--bg3);border-color:var(--acc);color:var(--acc)}
+.fi.zero{opacity:.55}
+.fi span:first-child{min-width:0;overflow-wrap:anywhere}
+.fi .n{font:500 11.5px var(--f-mono);color:var(--fg2);background:var(--bg2);border-radius:6px;padding:0 7px;min-width:26px;text-align:center}
+.fi.on .n{color:var(--acc)}
+.scrim{display:none}
+.main{min-width:0;padding-block:22px 44px;padding-left:26px;padding-right:max(26px,env(safe-area-inset-right,0px))}
+.layout.nosb .main{padding-left:max(26px,env(safe-area-inset-left,0px))}
+
+/* Views & transitions */
+.view.in-l{animation:inL .3s ease both}.view.in-r{animation:inR .3s ease both}
+.view.out-l{animation:outL .2s ease both}.view.out-r{animation:outR .2s ease both}
+@keyframes inL{from{opacity:0;transform:translateX(34px)}}
+@keyframes inR{from{opacity:0;transform:translateX(-34px)}}
+@keyframes outL{to{opacity:0;transform:translateX(-34px)}}
+@keyframes outR{to{opacity:0;transform:translateX(34px)}}
+
+/* Hall */
+.stats{display:flex;gap:22px;flex-wrap:wrap;align-items:baseline}
+.stat{display:flex;align-items:baseline;gap:7px}
+.stat b{font:700 22px var(--f-display);font-variant-numeric:tabular-nums}
+.stat span{color:var(--fg2);font-size:12.5px}
+.stat.warn b{color:var(--bad)}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
+.toolbar .grow{flex:1}
+.hint{color:var(--fg2);font-size:12.5px}
+.sel{height:30px;border-radius:8px;border:1px solid var(--line);background:var(--bg2);padding:0 8px;font-size:12.5px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.fchip{display:inline-flex;align-items:center;gap:6px;padding:2px 6px 2px 10px;border:1px solid var(--acc);color:var(--acc);border-radius:999px;font-size:12.5px;background:var(--bg2)}
+.fchip button{background:none;border:0;padding:0;display:grid;place-items:center}
+
+/* Data-title group */
+.topic{margin-bottom:16px;border:1px solid var(--line);border-radius:14px;background:var(--bg2)}
+.topic-head{width:100%;display:flex;align-items:center;gap:12px;background:none;border:0;padding:14px 18px;text-align:left;border-radius:14px}
+.topic-head:hover{background:var(--bg3)}
+.topic-head .ic{transition:transform .25s;color:var(--acc)}
+.topic.closed .topic-head .ic{transform:rotate(-90deg)}
+.topic-t{flex:1;min-width:0}
+.topic-t b{display:block;font:600 16px/1.4 var(--f-display);overflow-wrap:anywhere}
+.cnt{flex:none;font:500 11.5px var(--f-mono);padding:2px 10px;border:1px solid var(--line);border-radius:999px;background:var(--bg);color:var(--fg2);white-space:nowrap}
+.topic-body{display:grid;grid-template-rows:1fr;transition:grid-template-rows .28s ease}
+.topic.closed .topic-body{grid-template-rows:0fr}
+.topic-clip{overflow:hidden;min-height:0}
+.cards{display:block;background:var(--bg);border-radius:0 0 13px 13px}
+
+/* Data row */
+.card{position:relative;display:flex;flex-direction:column;gap:12px;padding:16px 20px 14px;border-top:1px solid var(--line);min-width:0;transition:background .2s}
+.card:hover{background:color-mix(in srgb,var(--bg2) 60%,var(--bg))}
+.card.appealed{box-shadow:inset 0 0 0 1px var(--bad),inset 0 0 24px var(--bad-glow)}
+.card.off{opacity:.55}
+.card-h{display:flex;gap:10px;align-items:flex-start}
+.card-h .tags{flex:1;min-width:0}
+.dots{flex:none;width:32px;height:32px;margin:-5px -6px 0 0;padding:0;display:grid;place-items:center;border-radius:8px;border:1px solid transparent;background:none;color:var(--fg2)}
+.dots svg{width:18px;height:18px;fill:currentColor;stroke:none}
+.dots:hover,.dots[aria-expanded="true"]{border-color:var(--line);background:var(--bg2);color:var(--fg)}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tag{display:inline-flex;align-items:center;gap:4px;height:22px;padding:0 8px;border-radius:6px;font:500 11.5px var(--f-mono);border:1px solid var(--line);color:var(--fg2);background:var(--bg2)}
+button.tag{cursor:pointer}
+.tag.dom{color:var(--acc);border-color:color-mix(in srgb,var(--acc) 45%,var(--line))}
+.tag.form{color:var(--acc2);border-color:color-mix(in srgb,var(--acc2) 45%,var(--line))}
+.tag.ver{color:var(--ok);border-color:var(--ok)}
+.tag.yr{color:var(--fg);font-variant-numeric:tabular-nums}
+.tag.pend{color:var(--warn);border-color:color-mix(in srgb,var(--warn) 55%,var(--line))}
+.tag.mod{color:var(--warn);border-color:var(--warn)}
+.tag.mod:hover{background:var(--bg3)}
+.tag svg.ic{width:12px;height:12px}
+.tag.flagged{height:18px;padding:0 7px;gap:3px;font-size:11px;line-height:1;color:var(--acc-ink);background:var(--bad);border-color:var(--bad);box-shadow:0 0 6px var(--bad-glow);animation:pulse 2.4s ease-in-out infinite}
+.tag.offt{color:var(--fg2);border-style:dashed}
+@keyframes pulse{50%{box-shadow:0 0 4px var(--bad-glow)}}
+.body{margin:0;font-size:14.5px;line-height:1.8;color:var(--fg);overflow-wrap:anywhere;max-width:110ch}
+.src{display:inline-flex;align-items:center;gap:7px;max-width:100%;min-width:0;background:var(--bg2);border:1px solid var(--line);border-radius:8px;padding:3px 10px;font:500 12px var(--f-mono);color:var(--acc);text-decoration:none}
+.src span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.src em{font-style:normal;color:var(--fg2)}
+.src:hover{border-color:var(--acc)}
+.card-f{display:flex;align-items:center;justify-content:space-between;gap:10px 16px;flex-wrap:wrap;padding-top:12px;border-top:1px dashed var(--line);font-size:12px;color:var(--fg2)}
+.srcrow{display:flex;align-items:center;gap:8px;min-width:0;flex:1 1 220px}
+.lab2{color:var(--fg2);flex:none}
+.meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.time{display:inline-flex;align-items:center;gap:5px;font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.time svg{width:13px;height:13px}
+.vote{display:inline-flex;align-items:center;gap:6px;height:28px;padding:0 10px;border-radius:8px;border:1px solid var(--line);background:var(--bg2);font:500 12px var(--f-mono)}
+.vote:hover{border-color:var(--fg2)}
+.vote.up.on{color:var(--ok);border-color:var(--ok)}
+.vote.down.on{color:var(--bad);border-color:var(--bad)}
+
+/* Popover */
+.pop{position:fixed;z-index:80;min-width:220px;padding:6px;border-radius:12px;background:var(--glass);border:1px solid var(--line);backdrop-filter:blur(18px) saturate(1.3);-webkit-backdrop-filter:blur(18px) saturate(1.3);box-shadow:var(--shadow);animation:popIn .14s ease}
+@keyframes popIn{from{opacity:0;transform:translateY(-4px) scale(.98)}}
+.pop .mi{width:100%;display:flex;align-items:center;gap:10px;padding:9px 12px;border:0;background:none;border-radius:8px;text-align:left}
+.pop .mi:hover{background:var(--bg3)}
+.pop .mi.lock{color:var(--fg2)}
+.pop .mi.bad{color:var(--bad)}
+.pop hr{border:0;border-top:1px solid var(--line);margin:5px 4px}
+.pop .ph{padding:8px 12px 6px;font-size:12px;color:var(--fg2);max-width:260px;overflow-wrap:anywhere}
+
+/* Modal */
+.ov{position:fixed;inset:0;z-index:90;display:grid;place-items:center;padding:16px;background:hsl(var(--h) 30% 4% / .55);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);animation:fade .18s ease}
+@keyframes fade{from{opacity:0}}
+.modal{width:min(560px,100%);max-height:calc(100vh - 32px);overflow:auto;background:var(--bg2);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);animation:rise .22s ease}
+.modal.wide{width:min(720px,100%)}
+@keyframes rise{from{opacity:0;transform:translateY(14px) scale(.98)}}
+.m-h{display:flex;align-items:center;gap:10px;padding:16px 20px 4px}
+.m-h h2{flex:1;margin:0;font:600 18px var(--f-display)}
+.m-b{padding:10px 20px 6px;display:grid;gap:14px}
+.m-f{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap;padding:12px 20px 18px}
+.field{display:grid;gap:6px}
+.field label,.lab{font:500 12px var(--f-mono);letter-spacing:.06em;color:var(--fg2)}
+.in,.ta{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:9px;padding:9px 12px;outline:0}
+.in:focus,.ta:focus{border-color:var(--acc);box-shadow:0 0 0 3px var(--acc-glow)}
+.ta{min-height:110px;resize:vertical;line-height:1.6}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.row3{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:12px}
+.seg{display:inline-flex;flex-wrap:wrap;border:1px solid var(--line);border-radius:9px;overflow:hidden;width:max-content;max-width:100%}
+.seg button{background:var(--bg);border:0;padding:7px 14px}
+.seg button.on{background:var(--acc);color:var(--acc-ink);font-weight:700}
+.err{color:var(--bad);font-size:12.5px;min-height:1.2em}
+.note{border:1px solid var(--line);border-left:3px solid var(--warn);border-radius:8px;padding:9px 12px;background:var(--bg);font-size:12.5px;color:var(--fg2);overflow-wrap:anywhere}
+.idcard{display:flex;align-items:center;gap:12px;padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:var(--bg)}
+.timeline{list-style:none;margin:0;padding:0 0 0 18px;border-left:2px solid var(--line);display:grid;gap:16px}
+.timeline li{position:relative;padding-left:14px}
+.timeline li::before{content:"";position:absolute;left:-26px;top:5px;width:10px;height:10px;border-radius:50%;background:var(--bg);border:2px solid var(--fg2)}
+.timeline li.cur::before{border-color:var(--acc);background:var(--acc)}
+.tl-h{display:flex;gap:8px;flex-wrap:wrap;align-items:center;font:500 12px var(--f-mono);color:var(--fg2)}
+.tl-h b{color:var(--fg)}
+.tl-c{margin:6px 0 0;padding:9px 12px;background:var(--bg);border:1px solid var(--line);border-radius:8px;overflow-wrap:anywhere}
+.tl-c small{display:block;color:var(--fg2);margin-bottom:4px}
+.prog{height:8px;border-radius:5px;background:var(--bg3);overflow:hidden;margin-top:8px}
+.prog i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--acc),var(--acc2));transition:width .12s linear}
+
+#toasts{position:fixed;z-index:120;left:50%;transform:translateX(-50%);bottom:calc(20px + env(safe-area-inset-bottom,0px));display:grid;gap:8px;width:min(420px,calc(100vw - 32px));pointer-events:none}
+.toast{pointer-events:auto;background:var(--glass);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid var(--line);border-left:3px solid var(--acc);border-radius:10px;padding:10px 14px;box-shadow:var(--shadow);animation:rise .22s ease}
+.toast.ok{border-left-color:var(--ok)}.toast.bad{border-left-color:var(--bad)}.toast.warn{border-left-color:var(--warn)}
+
+/* Court */
+.court-h{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:18px}
+.court-h h1,.set-h h1{margin:0;font:700 24px var(--f-display);letter-spacing:.06em}
+.court-h p,.set-h p{margin:4px 0 0;color:var(--fg2);max-width:62ch}
+.case{border:1px solid var(--line);border-radius:14px;background:var(--bg2);margin-bottom:14px}
+.case.hot{border-color:var(--bad)}
+.case-h{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:14px 16px}
+.case-h .t{flex:1 1 240px;min-width:0}
+.case-h .t b{display:block;font:600 15.5px/1.4 var(--f-display);overflow-wrap:anywhere}
+.case-h .t small{color:var(--fg2)}
+.case-b{display:none;padding:0 16px 16px;gap:12px}
+.case.open .case-b{display:grid}
+.case.open .toggle .ic{transform:rotate(180deg)}
+.ap{display:flex;gap:12px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg)}
+.av{flex:none;width:30px;height:30px;border-radius:8px;display:grid;place-items:center;background:var(--bg3);font:700 13px var(--f-display);color:var(--acc)}
+.ap p{margin:2px 0 0;overflow-wrap:anywhere}
+.ap small{color:var(--fg2);font-family:var(--f-mono)}
+.log{width:100%;border-collapse:collapse;font-size:13px}
+.log th{font:500 11.5px var(--f-mono);letter-spacing:.08em;text-align:left;color:var(--fg2);padding:6px 10px;border-bottom:1px solid var(--line)}
+.log td{padding:8px 10px;border-bottom:1px dashed var(--line);vertical-align:top}
+.scroll-x{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--bg2)}
+.empty{border:1px dashed var(--line);border-radius:14px;padding:36px 20px;text-align:center;color:var(--fg2)}
+.empty b{display:block;color:var(--fg);font:600 16px var(--f-display);margin-bottom:4px}
+
+/* Settings */
+.set-h{margin-bottom:18px}
+.set-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,460px),1fr));gap:16px;align-items:start}
+.panel{background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:18px 20px;display:grid;gap:18px;min-width:0}
+.panel>h2{margin:0;font:600 16px var(--f-display)}
+.sub{display:grid;gap:8px}
+.sub>h3{margin:0;font:500 12px var(--f-mono);letter-spacing:.08em;color:var(--fg2)}
+.pals{display:grid;grid-template-columns:repeat(auto-fill,minmax(132px,1fr));gap:10px}
+.pal{display:grid;gap:6px;align-content:start;text-align:left;padding:8px;border:1px solid var(--line);border-radius:12px;background:var(--bg)}
+.pal:hover{border-color:var(--fg2)}
+.pal.on{border-color:var(--acc);box-shadow:0 0 0 1px var(--acc)}
+.pal .pv{display:flex;align-items:center;gap:5px;height:42px;border-radius:8px;padding:0 9px;border:1px solid}
+.pal .pv i{width:14px;height:14px;border-radius:50%}
+.pal b{font-size:13px}
+.pal small{color:var(--fg2);font-size:11.5px;line-height:1.35}
+.sws{display:flex;gap:8px;flex-wrap:wrap}
+.sw{display:inline-flex;align-items:center;gap:8px;height:34px;padding:0 12px 0 8px;border-radius:999px;border:1px solid var(--line);background:var(--bg)}
+.sw:hover{border-color:var(--fg2)}
+.sw i{width:18px;height:18px;border-radius:50%;border:1px solid var(--line)}
+.sw.on{border-color:var(--acc);box-shadow:0 0 0 1px var(--acc)}
+.inline{display:flex;gap:8px;flex-wrap:wrap}
+.inline .in{flex:1 1 180px;min-width:0}
+.perm{width:100%;border-collapse:collapse;font-size:13px}
+.perm td{padding:8px 10px;border-bottom:1px dashed var(--line);vertical-align:top}
+.perm td:first-child{white-space:nowrap}
+.perm tr.me td{background:var(--bg3)}
+.keys{display:grid;gap:6px;font-size:13px}
+.keys div{display:flex;gap:10px;align-items:center}
+
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr)}
+  .side{position:fixed;z-index:70;left:0;top:0;bottom:0;max-height:none;width:min(86vw,320px);background:var(--bg2);transform:translateX(-102%);transition:transform .25s ease;padding-top:calc(16px + env(safe-area-inset-top,0px));border-right:1px solid var(--acc)}
+  .side.open{transform:none}
+  .scrim.show{display:block;position:fixed;inset:0;z-index:65;background:hsl(var(--h) 30% 4% / .5)}
+  .only-m{display:inline-flex}
+  .main,.layout.nosb .main{padding-block:16px 36px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+  .top{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+  .search{order:5;flex-basis:100%}
+  .btn .lbl{display:none}
+  .btn.keep .lbl{display:inline}
+  .row2{grid-template-columns:1fr}
+  .row3{grid-template-columns:1.3fr 1fr 1fr}
+}
+@media (max-width:560px){ .card{padding:14px 14px 12px} .btn.keep .lbl{display:none} .btn.keep{width:38px;padding:0} .kbd{display:none} .panel{padding:16px} .topic-head{padding:12px 14px} }
+
+/* ===== War folder (备战夹) ===== */
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.btn[disabled]:hover{border-color:var(--line);background:var(--bg2)}
+.topic-bar{display:flex;align-items:center;gap:8px;border-radius:14px}
+.topic-bar.hb:hover{background:var(--bg3)}
+.topic-bar.hb .topic-head:hover{background:none}
+.topic-bar .topic-head{flex:1;min-width:0}
+.war-btn{flex:none;margin-right:14px}
+.btn.war-btn.on{border-color:var(--ok);color:var(--ok)}
+.wpick{display:grid;gap:8px}
+.wp{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg);cursor:pointer;overflow-wrap:anywhere}
+.wp:hover{border-color:var(--acc)}
+.wp input,.wrow input{width:17px;height:17px;accent-color:var(--acc);flex:none}
+.war-grid{display:grid;grid-template-columns:minmax(240px,300px) minmax(0,1fr);gap:18px;align-items:start}
+.war-list{display:grid;gap:10px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 82px)}
+.wm{display:grid;gap:6px;width:100%;text-align:left;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--bg2)}
+.wm:hover{border-color:var(--fg2)}
+.wm.on{border-color:var(--acc);box-shadow:0 0 0 1px var(--acc)}
+.wm b{font:600 14.5px/1.45 var(--f-display);overflow-wrap:anywhere}
+.wm .row{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.wbar{position:sticky;top:calc(env(safe-area-inset-top,0px) + 76px);z-index:6;display:flex;align-items:center;justify-content:space-between;gap:10px 14px;flex-wrap:wrap;padding:12px 16px;margin-bottom:14px;background:var(--glass);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid var(--line);border-radius:14px}
+.wbar-t{min-width:0;flex:1 1 220px}
+.wbar-t b{display:block;font:600 16px/1.4 var(--f-display);overflow-wrap:anywhere}
+.wt{padding:14px 18px;min-width:0;flex:1}
+.wt b{display:block;font:600 15.5px/1.4 var(--f-display);overflow-wrap:anywhere}
+.wtools{display:flex;gap:6px;flex-wrap:wrap;padding-right:14px}
+.wrow{display:flex;align-items:flex-start;gap:12px;padding:14px 18px;border-top:1px solid var(--line);cursor:pointer}
+.wrow:hover{background:color-mix(in srgb,var(--bg2) 60%,var(--bg))}
+.wrow input{margin-top:3px}
+.wrow.unsel .body{color:var(--fg2)}
+.wr-b{display:grid;gap:8px;min-width:0;flex:1}
+@media (max-width:900px){
+  .war-grid{grid-template-columns:minmax(0,1fr)}
+  .war-list{position:static}
+  .wbar{position:static}
+}
+/* ===== Motion layer (driven by the script below; everything is visible at rest) ===== */
+.btn,.vote,.src,.fi,.pal,.sw{position:relative;overflow:hidden}
+.rip{position:absolute;border-radius:50%;pointer-events:none;background:currentColor;transform:scale(0)}
+.cn{display:inline-block}
+.pt{position:fixed;width:6px;height:6px;border-radius:50%;pointer-events:none;z-index:130}
+@keyframes enterUp{from{opacity:0;transform:translateY(18px) scale(.985)}}
+.topic.enter{animation:enterUp .6s cubic-bezier(.2,.8,.2,1) backwards;animation-delay:calc(var(--i,0) * 70ms)}
+.topic.enter .card{animation:enterUp .5s cubic-bezier(.2,.8,.2,1) backwards;animation-delay:calc(var(--i,0) * 70ms + 140ms + var(--j,0) * 55ms)}
+.topic.pre{opacity:0;transform:translateY(24px)}
+.topic.shown{animation:enterUp .65s cubic-bezier(.2,.8,.2,1) backwards}
+.enterp{animation:enterUp .6s cubic-bezier(.2,.8,.2,1) backwards;animation-delay:calc(var(--i,0) * 90ms)}
+.card>*{position:relative}
+.card::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .3s;background:radial-gradient(460px circle at var(--mx,50%) var(--my,0%),color-mix(in srgb,var(--acc) 10%,transparent),transparent 70%)}
+.card:hover::before{opacity:1}
+.fi{transition:background .15s,transform .2s cubic-bezier(.2,.8,.2,1)}
+.fi:hover{transform:translateX(3px)}
+.topic-head .ic,.sg-h .ic{transition:transform .35s cubic-bezier(.3,1.5,.5,1)}
+@keyframes dropIn{from{opacity:0;transform:translateY(-16px)}}
+.top{animation:dropIn .55s cubic-bezier(.2,.8,.2,1) backwards}
+.top::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;background:linear-gradient(90deg,var(--acc),var(--acc2));transform:scaleX(var(--sp,0));transform-origin:0 50%;pointer-events:none}
+.top.scrolled{box-shadow:0 10px 26px -14px hsl(var(--h) 40% 3% / .55)}
+.glow{position:fixed;left:0;top:0;width:620px;height:620px;margin:-310px 0 0 -310px;border-radius:50%;pointer-events:none;z-index:0;background:radial-gradient(closest-side,var(--acc-glow),transparent);opacity:.7;will-change:transform;transform:translate3d(50vw,30vh,0)}
+@media (hover:none){.glow{display:none}}
+@keyframes sideIn{from{opacity:0;transform:translateX(-18px)}}
+@media (min-width:901px){.side{animation:sideIn .55s cubic-bezier(.2,.8,.2,1) backwards}}
+.brand svg{transition:transform .7s cubic-bezier(.2,.9,.3,1.3)}
+.brand:hover svg{transform:rotate(60deg)}
+.brand svg path{stroke-dasharray:1;stroke-dashoffset:1;animation:draw 1s cubic-bezier(.4,0,.2,1) .15s forwards}
+.brand svg path:nth-of-type(2){animation-delay:.4s}
+.brand svg path:nth-of-type(3){animation-delay:.8s}
+.brand svg circle{transform-box:fill-box;transform-origin:center;animation:dotIn .5s cubic-bezier(.3,1.6,.5,1) 1s backwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes dotIn{from{transform:scale(0)}}
+@keyframes spring{0%{opacity:0;transform:translateY(22px) scale(.94)}60%{opacity:1;transform:translateY(-3px) scale(1.01)}100%{transform:none}}
+.modal{animation:spring .42s cubic-bezier(.22,.9,.3,1) both}
+.toast.out{animation:toastOut .22s ease both}
+@keyframes toastOut{to{opacity:0;transform:translateY(8px) scale(.97)}}
+.pop{transform-origin:100% 0}
+@keyframes miIn{from{opacity:0;transform:translateX(8px)}}
+.pop .mi{animation:miIn .26s cubic-bezier(.2,.8,.2,1) backwards}
+.pop>:nth-child(2){animation-delay:.02s}.pop>:nth-child(3){animation-delay:.05s}.pop>:nth-child(4){animation-delay:.08s}.pop>:nth-child(5){animation-delay:.11s}.pop>:nth-child(6){animation-delay:.14s}.pop>:nth-child(7){animation-delay:.17s}
+.case.gone-ok{border-color:var(--ok)!important;box-shadow:0 0 22px color-mix(in srgb,var(--ok) 35%,transparent)}
+.case.gone-bad{box-shadow:0 0 22px var(--bad-glow)}
+::view-transition-old(root),::view-transition-new(root){animation:none;mix-blend-mode:normal}
+:root[data-motion="reduce"] *{animation-delay:0s!important}
+:root[data-motion="reduce"] .glow{display:none}
+@media (prefers-reduced-motion:reduce){*{animation-delay:0s!important}.glow{display:none}}
+
+
+/* Account / admin additions */
+.role.banned{color:var(--bad)}
+.adm-grid{display:grid;gap:16px;min-width:0}
+.adm-grid .panel{min-width:0}
+.keybox{font-family:var(--f-mono);letter-spacing:.06em}
+.keyform .field,.adm-grid .field{min-width:0}
+.sel:disabled{opacity:.55;cursor:not-allowed}
+.setup{border:1px dashed var(--acc);border-radius:14px;padding:22px 22px 18px;background:var(--bg2);display:grid;gap:10px;max-width:760px}
+.setup h2{margin:0;font:600 17px var(--f-display)}
+.setup ol{margin:0;padding-left:20px;display:grid;gap:6px}
+.setup code{font:500 12.5px var(--f-mono);background:var(--bg);border:1px solid var(--line);border-radius:5px;padding:1px 6px;overflow-wrap:anywhere}
+.loading{display:flex;align-items:center;gap:12px;padding:30px 20px;color:var(--fg2);justify-content:center}
+.loading i{width:16px;height:16px;border-radius:50%;border:2px solid var(--line);border-top-color:var(--acc);animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+@media (prefers-reduced-motion:reduce){
+  .tag.flagged{animation:none}
+  *,*::before,*::after{transition-duration:.01ms!important}
+  .view.in-l,.view.in-r,.view.out-l,.view.out-r,.modal,.ov,.pop,.toast{animation-duration:.01ms!important}
+}
+</style>
+</head>
+<body>
+<div class="glow" id="glow" aria-hidden="true"></div>
+<div class="app">
+  <header class="top" id="top">
+    <div class="ctl" id="ctl-l"></div>
+    <button class="brand" data-act="view" data-v="hall" aria-label="返回数据大厅">
+      <svg viewBox="0 0 40 40" aria-hidden="true"><path pathLength="1" d="M20 2l15 8.5v19L20 38 5 29.5v-19z" fill="none" stroke="var(--acc)" stroke-width="2"/><path pathLength="1" d="M20 9l9 5v12l-9 5-9-5V14z" fill="var(--bg3)" stroke="var(--acc2)" stroke-width="1.5"/><circle cx="20" cy="18" r="3" fill="var(--acc)"/><path pathLength="1" d="M20 20v6" stroke="var(--acc)" stroke-width="2.4" stroke-linecap="round"/></svg>
+      <span><b>国库</b><small>DEBATE VAULT</small></span>
+    </button>
+    <label class="search" for="q"><svg class="ic" viewBox="0 0 24 24"><path d="M11 4a7 7 0 100 14 7 7 0 000-14zM21 21l-4.5-4.5"/></svg><input id="q" type="search" autocomplete="off" placeholder="检索数据标题、内容、领域关键词…"><span class="kbd">/</span></label>
+    <div class="ctl" id="ctl"></div>
+  </header>
+  <div class="layout" id="layout">
+    <aside class="side" id="side" aria-label="分类导航"></aside>
+    <div class="scrim" id="scrim" data-act="drawer"></div>
+    <main class="main">
+      <section class="view" id="v-hall"></section>
+      <section class="view" id="v-war" hidden></section>
+      <section class="view" id="v-court" hidden></section>
+      <section class="view" id="v-admin" hidden></section>
+      <section class="view" id="v-settings" hidden></section>
+    </main>
+  </div>
+</div>
+<div id="toasts" aria-live="polite"></div>
+<div id="pop" class="pop" hidden></div>
+<div id="mhost"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script>
+/* ============================ 只需要改这里 ============================
+   Supabase 后台 → Project Settings → API：
+   url     ＝ Project URL（形如 https://abcdefghijk.supabase.co）
+   anonKey ＝ anon / publishable key（可以公开；绝对不要放 service_role / secret key）  */
+window.VAULT_CONFIG = {
+  url: 'https://fkzepqzlsyeunkobdcuw.supabase.co',
+  anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZremVwcXpsc3lldW5rb2JkY3V3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI0MDI0MjAsImV4cCI6MjEwNzk3ODQyMH0.GrQOQyr36It8C9vHCk6YNcfnrujYhV4iLMmw2Dt-NTA'
+};
+</script>
+<script>
+/* 国库 DEBATE VAULT · Supabase 连接层（浏览器端）
+ *
+ * 用法：
+ *   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"><\/script>
+ *   <script src="vault-api.js"><\/script>
+ *   然后把你页面里原来读写 localStorage 的地方，换成下面的 VaultAPI.xxx()。
+ *
+ * 只需要改下面两行（Supabase 后台 → Project Settings → API）：
+ *   - Project URL
+ *   - anon / publishable key（可以公开，权限由数据库的 RLS 和函数保护）
+ *   ！！绝对不要把 service_role / secret key 放进网页！！
+ */
+(function (global) {
+  'use strict';
+
+  var CFG = global.VAULT_CONFIG || {};
+  var SUPABASE_URL = CFG.url || '';
+  var SUPABASE_ANON_KEY = CFG.anonKey || '';
+  var configured = !!(global.supabase && /^https:\/\/[a-z0-9-]+\.supabase\.co\/?$/i.test(SUPABASE_URL) && SUPABASE_ANON_KEY.length > 20);
+
+  var sb = configured ? global.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+    auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true }
+  }) : null;
+
+  /* 数据库函数报错时，把 Postgres 的中文提示直接抛给界面用 toast 显示 */
+  function ok(res) {
+    if (res.error) { var e = new Error(res.error.message || '操作失败'); e.code = res.error.code; throw e; }
+    return res.data;
+  }
+  function rpc(name, args) { return sb.rpc(name, args || {}).then(ok); }
+
+  /* ---------- 登录 ---------- */
+  var Auth = {
+    /** 注册：用户名 + 邮箱 + 密码。用户名在数据库里唯一（不分大小写） */
+    signUp: function (username, email, password) {
+      username = String(username).trim();
+      return rpc('username_available', { p_name: username }).then(function (free) {
+        if (!free) throw new Error('该用户名已被使用，或格式不对（2–16 位字母、数字、下划线或中文）');
+        return sb.auth.signUp({ email: email.trim(), password: password, options: { data: { username: username } } }).then(ok);
+      }).then(function (d) {
+        // 如果后台开着「Confirm email」，这里没有 session，要提示用户去邮箱点确认链接
+        return { needsConfirm: !d.session };
+      });
+    },
+    /** 登录：用邮箱 + 密码（传入的若不含 @ 仍会尝试按用户名查邮箱，界面上只开放邮箱） */
+    signIn: function (login, password) {
+      login = String(login).trim();
+      var getEmail = login.indexOf('@') > -1 ? Promise.resolve(login) : rpc('login_email', { p_login: login });
+      return getEmail.then(function (email) {
+        if (!email) throw new Error('邮箱或密码错误');      // 故意不区分「用户不存在」和「密码错」
+        return sb.auth.signInWithPassword({ email: email, password: password }).then(ok);
+      }).catch(function (e) {
+        throw new Error(/Invalid login|invalid_credentials/i.test(e.message) ? '邮箱或密码错误' : /not confirmed/i.test(e.message) ? '邮箱还没有确认，请先点邮件里的确认链接' : e.message);
+      });
+    },
+    signOut: function () { return sb.auth.signOut(); },
+    /** 登录状态变化（含刷新页面后的自动恢复）：cb(user | null) */
+    onChange: function (cb) {
+      sb.auth.getSession().then(function (r) { cb(r.data.session ? r.data.session.user : null); });
+      return sb.auth.onAuthStateChange(function (_e, session) { cb(session ? session.user : null); });
+    },
+    /** 我的资料：{id, name, role, banned}；游客返回 null */
+    profile: function () {
+      return sb.auth.getUser().then(function (r) {
+        var u = r.data && r.data.user; if (!u) return null;
+        return sb.from('profiles').select('id,name,role,banned').eq('id', u.id).single().then(ok);
+      });
+    },
+    updateName: function (name) { return rpc('update_my_name', { p_name: name }); }
+  };
+
+  /* ---------- 资料：读取并整理成你现有页面使用的形状 ---------- */
+  function shape(r) {
+    var votes = r.votes || [];
+    return {
+      id: r.id, topic: r.topic, content: r.content, domain: r.domain, form: r.form,
+      year: r.year, month: r.month || null, day: r.day || null, srcName: r.src_name,
+      src: r.src_type === 'url' ? { t: 'url', v: r.src_value } : { t: 'file', v: r.src_value, size: r.src_size || '' },
+      author: r.author_name, ts: Date.parse(r.created_at),
+      verified: r.verified, offline: r.offline,
+      up: votes.filter(function (v) { return v.value === 1; }).map(function (v) { return v.user_id; }),   // 注意：现在是用户 id，不是名字
+      down: votes.filter(function (v) { return v.value === -1; }).map(function (v) { return v.user_id; }),
+      appealCount: r.appeal_count,                                    // 所有人可见（游客也能看到「被上诉」标签）
+      appeals: (r.appeals || []).map(function (a) {                   // 只有本人和管理员能读到明细
+        return { user: a.user_name, userId: a.user_id, reason: a.reason, ts: Date.parse(a.created_at) };
+      }),
+      versions: (r.entry_versions || []).sort(function (a, b) { return a.v - b.v; }).map(function (v) {
+        return { v: v.v, ts: Date.parse(v.created_at), user: v.user_name, topic: v.topic, content: v.content,
+                 year: v.year, month: v.month || null, day: v.day || null, srcName: v.src_name, note: v.note };
+      })
+    };
+  }
+
+  var Data = {
+    /** 一次读完全部资料（10–100 人规模、几百到几千条资料完全够用） */
+    loadEntries: function () {
+      return sb.from('entries')
+        .select('*, entry_versions(*), votes(user_id,value), appeals(user_id,user_name,reason,created_at)')
+        .order('created_at', { ascending: false })
+        .limit(5000).then(ok).then(function (rows) { return rows.map(shape); });
+    },
+    addEntry: function (e) {
+      return rpc('add_entry', {
+        p_topic: e.topic, p_content: e.content, p_domain: e.domain, p_form: e.form, p_year: e.year, p_month: e.month || null, p_day: e.day || null,
+        p_src_name: e.srcName, p_src_type: e.src.t, p_src_value: e.src.v, p_src_size: e.src.size || null
+      });
+    },
+    editEntry: function (id, e, note) {
+      return rpc('edit_entry', { p_id: id, p_topic: e.topic, p_content: e.content, p_year: e.year, p_month: e.month || null, p_day: e.day || null, p_src_name: e.srcName, p_note: note });
+    },
+    vote: function (id, value) { return rpc('cast_vote', { p_entry: id, p_value: value }); },  // 1 赞 / -1 踩，再点同一个＝取消
+    appeal: function (id, reason) { return rpc('file_appeal', { p_entry: id, p_reason: reason }); },
+    withdraw: function (id) { return rpc('withdraw_appeal', { p_entry: id }); },
+    /** 输入授权密钥提权；成功返回新身份，密钥无效返回 null */
+    redeemKey: function (key) { return rpc('redeem_key', { p_key: key }); },
+    lowerMyRole: function (role) { return rpc('lower_my_role', { p_role: role }); }
+  };
+
+  /* ---------- 备战夹（所有贡献者共享；直接读写表，RLS 保证只有贡献者+能用） ---------- */
+  var War = {
+    /** 返回你页面现在用的形状：{motions:[{id,name,active,by,ts,items:{标题:{ids:[],ts,by}}}]} */
+    load: function () {
+      return Promise.all([
+        sb.from('motions').select('*').order('created_at').then(ok),
+        sb.from('motion_items').select('*').then(ok)
+      ]).then(function (r) {
+        return { v: 1, motions: r[0].map(function (m) {
+          var items = {};
+          r[1].filter(function (i) { return i.motion_id === m.id; }).forEach(function (i) {
+            items[i.topic] = { ids: i.entry_ids, ts: Date.parse(i.updated_at), by: i.added_by };
+          });
+          return { id: m.id, name: m.name, active: m.active, by: m.created_by_name, ts: Date.parse(m.created_at), items: items };
+        }) };
+      });
+    },
+    createMotion: function (name, myId, myName) {
+      return sb.from('motions').insert({ name: name, created_by: myId, created_by_name: myName }).select().single().then(ok);
+    },
+    renameMotion: function (id, name) { return sb.from('motions').update({ name: name }).eq('id', id).then(ok); },
+    setActive: function (id, active) { return sb.from('motions').update({ active: active }).eq('id', id).then(ok); },
+    deleteMotion: function (id) { return sb.from('motions').delete().eq('id', id).then(ok); },
+    /** 加入 / 更新某个数据标题下选中的论据 */
+    saveItem: function (motionId, topic, ids, myName) {
+      return sb.from('motion_items').upsert(
+        { motion_id: motionId, topic: topic, entry_ids: ids, added_by: myName, updated_at: new Date().toISOString() },
+        { onConflict: 'motion_id,topic' }).then(ok);
+    },
+    removeItem: function (motionId, topic) {
+      return sb.from('motion_items').delete().eq('motion_id', motionId).eq('topic', topic).then(ok);
+    }
+  };
+
+  /* ---------- 管理员 ---------- */
+  var Admin = {
+    users: function () { return rpc('admin_list_users'); },
+    setRole: function (userId, role) { return rpc('admin_set_role', { p_user: userId, p_role: role }); },
+    setBanned: function (userId, banned) { return rpc('admin_set_banned', { p_user: userId, p_banned: banned }); },
+    keys: function () { return rpc('admin_list_keys'); },
+    /** 返回密钥明文——只此一次，之后数据库里只剩哈希，请当场复制 */
+    createKey: function (label, role, maxUses, days) {
+      return rpc('admin_create_key', { p_label: label, p_role: role, p_max_uses: maxUses || null, p_days: days || null });
+    },
+    revokeKey: function (id) { return rpc('admin_revoke_key', { p_id: id }); },
+    verify: function (id, v) { return rpc('admin_set_verified', { p_id: id, p_value: v }); },
+    offline: function (id, v) { return rpc('admin_set_offline', { p_id: id, p_value: v }); },
+    courtPass: function (id) { return rpc('court_pass', { p_id: id }); },
+    courtReject: function (id) { return rpc('court_reject', { p_id: id }); },
+    courtLog: function () { return sb.from('court_log').select('*').order('created_at', { ascending: false }).limit(30).then(ok); },
+    adminLog: function () { return sb.from('admin_log').select('*').order('created_at', { ascending: false }).limit(100).then(ok); },
+    /** 把旧版导出的 JSON（{entries:[...]}）里的 entries 数组导入；返回成功条数 */
+    importEntries: function (entries) { return rpc('admin_import_entries', { p_data: entries }); }
+  };
+
+  /* ---------- 实时同步：任何人改了数据，所有打开着页面的人几百毫秒内收到通知 ---------- */
+  function subscribe(onChange) {
+    var t = 0;
+    function ping() { clearTimeout(t); t = setTimeout(onChange, 300); }   // 合并短时间内的多次变化
+    var ch = sb.channel('vault-changes');
+    ['entries', 'entry_versions', 'votes', 'appeals', 'motions', 'motion_items', 'profiles', 'court_log'].forEach(function (table) {
+      ch.on('postgres_changes', { event: '*', schema: 'public', table: table }, ping);
+    });
+    ch.subscribe();
+    return function () { sb.removeChannel(ch); };
+  }
+
+  global.VaultAPI = { configured: configured, sb: sb, Auth: Auth, Data: Data, War: War, Admin: Admin, subscribe: subscribe };
+})(window);
+
+</script>
+<script>
+(function(){
+'use strict';
+var $=function(s,r){return (r||document).querySelector(s)};
+var $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+var esc=function(s){return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})};
+
+/* ---------- storage ---------- */
+var mem={};
+var store={
+  get:function(k,d){try{var v=localStorage.getItem(k);if(v!==null)return JSON.parse(v)}catch(e){} return k in mem?mem[k]:d},
+  set:function(k,v){mem[k]=v;try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}},
+  del:function(k){delete mem[k];try{localStorage.removeItem(k)}catch(e){}}
+};
+
+/* ---------- constants ---------- */
+/* Categories after merging near-duplicates. DMAP / FMAP translate older names (stored data, imports, seed) to the merged ones. */
+var DOMAINS=['政治与选举','国家与国际关系','经济发展与金融','法律与司法','公平与正义','自由与民主','公共政策与治理','教育与校园','青少年','科技与人工智能','媒体与文化','心理与行为','亲子关系','爱情','死亡','伦理与哲学','社会与民生','环境与能源','医疗与健康','历史与战争','体育与竞技','商业与管理'];
+var FORMS=['统计数据','研究论文','报告','新闻','调查与民调','案例实证','书籍专著','名人名言','逻辑推演','其他'];
+var DMAP={'选举与政治':'政治与选举','政治与国际关系':'国家与国际关系','国家':'国家与国际关系','经济发展':'经济发展与金融','经济与金融':'经济发展与金融','正义':'公平与正义','公平与公正':'公平与正义','教育与青年':'教育与校园','科技':'科技与人工智能','人工智能':'科技与人工智能','心理':'心理与行为','媒体/社交媒体':'媒体与文化','文化与传媒':'媒体与文化'};
+var FMAP={'数据':'统计数据','统计':'统计数据','学术论文':'研究论文','研究':'研究论文','官方报告':'报告','新闻报道':'新闻','民调':'调查与民调','调查':'调查与民调'};
+function normCat(e){if(DMAP[e.domain])e.domain=DMAP[e.domain];if(FMAP[e.form])e.form=FMAP[e.form];if(e.year===undefined)e.year=null;if(e.month===undefined)e.month=null;if(e.day===undefined)e.day=null;if(e.srcName===undefined)e.srcName=''}
+/* year is required; month and day are optional (day needs a month) */
+function fdate(o){return o.year?o.year+' 年'+(o.month?' '+o.month+' 月'+(o.day?' '+o.day+' 日':''):''):''}
+function dkey(o){return (o.year||0)*10000+(o.month||0)*100+(o.day||0)}
+function dateRow(p,o,ph){
+  function sel(id,n,cur,unit){var h='<option value="">不填</option>';for(var i=1;i<=n;i++)h+='<option value="'+i+'"'+(cur===i?' selected':'')+'>'+i+' '+unit+'</option>';return '<select class="in" id="'+p+'-'+id+'">'+h+'</select>'}
+  return '<div class="row3"><div class="field"><label for="'+p+'-year">论据年份（必填）</label><input class="in" id="'+p+'-year" type="number" inputmode="numeric" min="1900" max="'+YMAX+'" step="1" value="'+(o.year||'')+'"'+(ph?' placeholder="'+ph+'"':'')+'></div>'+
+    '<div class="field"><label for="'+p+'-month">月份（选填）</label>'+sel('month',12,o.month,'月')+'</div><div class="field"><label for="'+p+'-day">日期（选填）</label>'+sel('day',31,o.day,'日')+'</div></div>';
+}
+function readDate(p){
+  var yr=parseInt($('#'+p+'-year').value,10),mo=$('#'+p+'-month').value,dy=$('#'+p+'-day').value;
+  if(!isFinite(yr)||yr<1900||yr>YMAX)return {err:'请填写论据年份（1900–'+YMAX+'）'};
+  var m=mo===''?null:+mo,d=dy===''?null:+dy;
+  if(d!==null&&m===null)return {err:'填写日期前请先选择月份'};
+  if(d!==null&&d>new Date(yr,m,0).getDate())return {err:yr+' 年 '+m+' 月没有 '+d+' 日'};
+  return {year:yr,month:m,day:d};
+}
+var ROLE={visitor:'游客',member:'普通会员',contributor:'授权贡献者',admin:'官方管理员',banned:'已限制'};
+var RANK={visitor:0,member:1,contributor:2,admin:3,banned:0};
+var DAY=864e5, LIMIT=3, YMAX=new Date().getFullYear();
+var VORDER=['hall','war','court','admin','settings'];
+var PALETTES=[
+  {id:'auto',name:'自动配对',desc:'夜间黑曜蓝，白天暖沙色'},
+  {id:'obsidian',name:'黑曜蓝',desc:'沉静的深蓝灰底，青灰点缀',h:222,s:24,ha:196,as:42},
+  {id:'sand',name:'暖沙',desc:'低蓝光暖色，纸张般柔和',h:36,s:20,ha:30,as:40},
+  {id:'moss',name:'苔绿',desc:'灰绿底色，最不刺眼',h:140,s:14,ha:150,as:30},
+  {id:'dusk',name:'暮紫',desc:'灰紫底色，安静内敛',h:268,s:16,ha:285,as:32},
+  {id:'graphite',name:'石墨灰',desc:'近中性灰，色彩干扰最小',h:210,s:7,ha:205,as:26},
+  {id:'pine',name:'松青',desc:'深青灰底，清爽耐看',h:184,s:18,ha:172,as:34}
+];
+var ACCENTS=[{n:'青',h:192},{n:'绿',h:150},{n:'琥珀',h:34},{n:'玫瑰',h:350},{n:'紫',h:270},{n:'蓝',h:215}];
+
+var ICONS={
+  up:'M12 19V5M5 12l7-7 7 7',down:'M12 5v14M19 12l-7 7-7-7',lock:'M7 11V8a5 5 0 0110 0v3M5 11h14v10H5z',
+  plus:'M12 5v14M5 12h14',chev:'M6 9l6 6 6-6',
+  link:'M10 14a4 4 0 005.7 0l3-3a4 4 0 00-5.7-5.7l-1 1M14 10a4 4 0 00-5.7 0l-3 3a4 4 0 005.7 5.7l1-1',
+  file:'M14 3H6v18h12V7zM14 3v4h4',check:'M5 12l5 5 9-10',close:'M6 6l12 12M18 6L6 18',
+  scale:'M12 3v18M5 21h14M4 7h16M7 7l-3 7a3 3 0 006 0zM17 7l-3 7a3 3 0 006 0z',copy:'M9 9h11v12H9zM5 15V3h11',
+  clock:'M12 7v5l3 2M12 3a9 9 0 100 18 9 9 0 000-18z',edit:'M4 20h4L19 9l-4-4L4 16zM14 6l4 4',
+  flag:'M5 21V4M5 4h11l-2 4 2 4H5',undo:'M9 14L4 9l5-5M4 9h10a6 6 0 010 12h-3',user:'M12 12a4 4 0 100-8 4 4 0 000 8zM4 21a8 8 0 0116 0',
+  off:'M4 4l16 16M10.6 6.1A8 8 0 0120 12a12 12 0 01-2.2 3M6.5 7.5A12 12 0 004 12c1.6 3.4 4.7 6 8 6a8 8 0 003-.6',
+  menu:'M4 6h16M4 12h16M4 18h16',
+  users:'M9 11a4 4 0 100-8 4 4 0 000 8zM2 21a7 7 0 0114 0M16 3.1a4 4 0 010 7.8M22 21a7 7 0 00-5-6.7',folder:'M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2z',download:'M12 3v12M7 10l5 5 5-5M5 21h14',trash:'M4 7h16M9 7V4h6v3M6 7l1 14h10l1-14',
+  gear:'M12 15a3 3 0 100-6 3 3 0 000 6zM19.4 15a1.7 1.7 0 00.3 1.8l.1.1a2 2 0 11-2.8 2.8l-.1-.1a1.7 1.7 0 00-1.8-.3 1.7 1.7 0 00-1 1.5V21a2 2 0 11-4 0v-.1a1.7 1.7 0 00-1.1-1.5 1.7 1.7 0 00-1.8.3l-.1.1a2 2 0 11-2.8-2.8l.1-.1a1.7 1.7 0 00.3-1.8 1.7 1.7 0 00-1.5-1H3a2 2 0 110-4h.1a1.7 1.7 0 001.5-1.1 1.7 1.7 0 00-.3-1.8l-.1-.1a2 2 0 112.8-2.8l.1.1a1.7 1.7 0 001.8.3H9a1.7 1.7 0 001-1.5V3a2 2 0 114 0v.1a1.7 1.7 0 001 1.5 1.7 1.7 0 001.8-.3l.1-.1a2 2 0 112.8 2.8l-.1.1a1.7 1.7 0 00-.3 1.8V9a1.7 1.7 0 001.5 1H21a2 2 0 110 4h-.1a1.7 1.7 0 00-1.5 1z'
+};
+function ic(n){return '<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="'+ICONS[n]+'"/></svg>'}
+var DOTS='<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="1.9"/><circle cx="12" cy="12" r="1.9"/><circle cx="19" cy="12" r="1.9"/></svg>';
+
+/* ---------- state ---------- */
+/* Everything shared lives in Supabase. DB / WAR below are in-memory copies of what the server last returned;
+   all writes go through window.VaultAPI (see the vault-api block above) and then the copies are refreshed. */
+var API=window.VaultAPI,ONLINE=!!(API&&API.configured);
+var DB={entries:[],court:[]};
+var WAR={v:1,motions:[]};
+var ME=null;                 /* {id,name,role,banned,email} of the signed-in user, or null for a visitor */
+var ADM={users:null,keys:null,log:null,err:null,busy:false};
+var P=store.get('dv_prefs',null)||{};
+P={mode:P.mode||'system',palette:P.palette||'auto',accent:(typeof P.accent==='number')?P.accent:null,motion:P.motion||'auto'};
+var ui={view:'hall',q:'',dom:null,form:null,sort:'new',collapsed:{},side:{dom:true,form:true},courtOpen:{},popKey:null,tok:0,warSel:null,warDraft:{},ready:false,loadErr:null,welcome:null};
+function savePrefs(){store.set('dv_prefs',P)}
+function cu(){return ME}
+function role(){return !ME?'visitor':ME.banned?'banned':ME.role}
+function rk(){return RANK[role()]}
+function apn(e){return e.appealCount||0}
+function errMsg(e){var m=e&&e.message?String(e.message):'';return m||'操作失败，请稍后再试'}
+
+/* ---------- loading from the server ---------- */
+var curUser=null,lastUid=undefined;
+async function loadProfile(user){
+  curUser=user||null;
+  if(!user){ME=null;return}
+  try{var p=await API.Auth.profile();ME=p?{id:p.id,name:p.name,role:p.role,banned:!!p.banned,email:user.email||''}:null}
+  catch(e){ME=null}
+}
+async function loadData(){
+  var r=await Promise.all([
+    API.Data.loadEntries(),
+    role()==='admin'?API.Admin.courtLog().catch(function(){return []}):Promise.resolve([]),
+    rk()>=2?API.War.load().catch(function(){return null}):Promise.resolve(null)
+  ]);
+  DB.entries=r[0];DB.entries.forEach(normCat);
+  DB.court=r[1].map(function(c){return {ts:Date.parse(c.created_at),action:c.action,topic:c.topic,snip:c.snip,n:c.n,admin:c.admin_name}});
+  WAR=r[2]||{v:1,motions:[]};
+}
+var loadP=null,loadAgain=false;
+/* One load at a time; a request that arrives mid-load queues exactly one more load. The returned promise resolves when the data is current. */
+function refresh(){
+  if(!ONLINE)return Promise.resolve();
+  if(loadP){loadAgain=true;return loadP}
+  loadP=(async function(){
+    do{
+      loadAgain=false;
+      try{await loadData();ui.loadErr=null}catch(e){ui.loadErr=errMsg(e)}
+      var first=!ui.ready;ui.ready=true;
+      softRender(first);
+      if(ui.view==='admin'&&role()==='admin')loadAdmin(true);
+    }while(loadAgain);
+  })().then(function(){loadP=null},function(){loadP=null});
+  return loadP;
+}
+/* Re-render after a data change without clobbering what the person is typing in Settings. */
+function softRender(first){
+  if(ui.view==='settings'){var a=document.activeElement;if(a&&/INPUT|TEXTAREA|SELECT/.test(a.tagName)&&$('#v-settings').contains(a))return}
+  if(ui.view==='hall'&&!first&&!rm())flipHall(render);else render();
+  if(first&&ui.view==='hall')playEnter();
+}
+async function afterRoleChange(){
+  await loadProfile(curUser);
+  await refresh();
+}
+function onAuthUser(user){
+  var uid=user?user.id:null;
+  if(uid===lastUid&&ui.ready)return;          /* tab refocus / token refresh: nothing changed */
+  lastUid=uid;
+  (async function(){
+    await loadProfile(user);
+    if(ui.view==='court'&&role()!=='admin'||ui.view==='admin'&&role()!=='admin'||ui.view==='war'&&rk()<2){ui.view='hall';syncViewVisibility()}
+    await refresh();
+    if(ui.welcome&&ME){toast((ui.welcome==='register'?'注册成功，':'欢迎回来，')+ME.name+'（'+ROLE[role()]+'）','ok')}
+    ui.welcome=null;
+  })();
+}
+
+/* ---------- theme ---------- */
+function effDark(){
+  if(P.mode==='dark')return true;if(P.mode==='light')return false;
+  try{return !matchMedia('(prefers-color-scheme: light)').matches}catch(e){return true}
+}
+function palById(id){return PALETTES.filter(function(p){return p.id===id})[0]}
+function resolvedPalette(){return P.palette==='auto'?(effDark()?'obsidian':'sand'):P.palette}
+function applyTheme(){
+  var root=document.documentElement;
+  if(P.mode==='system')root.removeAttribute('data-theme');else root.setAttribute('data-theme',P.mode);
+  root.setAttribute('data-palette',resolvedPalette());
+  if(P.accent!==null)root.style.setProperty('--ha',String(P.accent));else root.style.removeProperty('--ha');
+  root.setAttribute('data-motion',P.motion);
+}
+function hsl(h,s,l){return 'hsl('+h+' '+s+'% '+l+'%)'}
+function swatch(p){
+  var d=effDark(),ha=P.accent!==null?P.accent:p.ha;
+  return d?{bg:hsl(p.h,p.s,9),bg3:hsl(p.h,p.s,17),line:hsl(p.h,p.s*.8,26),acc:hsl(ha,p.as,66),acc2:hsl(ha+55,p.as*.8,70)}
+          :{bg:hsl(p.h,p.s*1.3,90),bg3:hsl(p.h,p.s*1.25,83),line:hsl(p.h,p.s,72),acc:hsl(ha,p.as+8,32),acc2:hsl(ha+55,p.as*.8,38)};
+}
+
+/* ---------- helpers ---------- */
+function pad(n){return String(n).padStart(2,'0')}
+function fmt(ts){var d=new Date(ts);return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())+' '+pad(d.getHours())+':'+pad(d.getMinutes())}
+function host(u){try{return new URL(u).hostname.replace(/^www\./,'')}catch(e){return u}}
+function fsize(b){return b<1024?b+' B':b<1048576?Math.round(b/1024)+' KB':(b/1048576).toFixed(1)+' MB'}
+function uid(){return 'u'+Date.now().toString(36)+Math.random().toString(36).slice(2,6)}
+function snip(s,n){s=String(s||'');return s.length>n?s.slice(0,n)+'…':s}
+function toast(msg,kind,ms){
+  var el=document.createElement('div');el.className='toast '+(kind||'');el.textContent=msg;$('#toasts').appendChild(el);
+  var gone=false;
+  function leave(){if(gone)return;gone=true;el.classList.add('out');setTimeout(function(){el.remove()},rm()?0:230)}
+  var t=setTimeout(leave,ms||2800);el.kill=function(){clearTimeout(t);leave()};return el;
+}
+
+/* ---------- permissions ---------- */
+function need(min,what){
+  if(rk()>=RANK[min])return true;
+  denyDlg(min,what);
+  return false;
+}
+function denyDlg(min,what){
+  var r=role(),msg=r==='visitor'
+    ?'游客仅可浏览资料。登录'+(min==='member'?'':'并提权至「'+ROLE[min]+'」')+'后才能'+what+'。'
+    :r==='banned'?'你的账户已被管理员限制，目前只能浏览资料，不能'+what+'。如有疑问请联系管理员。'
+    :'「'+what+'」需要「'+ROLE[min]+'」或更高权限，你当前是「'+ROLE[r]+'」。可在设置中输入授权密钥提权。';
+  modal({title:'权限不足',
+    body:'<div class="note">'+esc(msg)+'</div>',
+    actions:[{label:'知道了'},{label:'前往设置',cls:'pri',fn:function(){setTimeout(gotoSettings,0)}}]});
+}
+
+/* ---------- search / filter ---------- */
+function tokens(){return ui.q.trim().toLowerCase().split(/\s+/).filter(Boolean)}
+function subseq(t,h){var i=0;for(var j=0;j<h.length&&i<t.length;j++)if(h[j]===t[i])i++;return i===t.length}
+function matchQ(e){
+  var ts=tokens();if(!ts.length)return true;
+  var full=(e.topic+' '+e.content+' '+e.domain+' '+e.form+' '+e.author+' '+fdate(e)+' '+(e.srcName||'')).toLowerCase();
+  var short=(e.topic+' '+e.domain+' '+e.form).toLowerCase();
+  return ts.every(function(t){return full.indexOf(t)>-1||(t.length>=2&&subseq(t,short))});
+}
+function hl(text){
+  var s=esc(text),ts=tokens().map(function(t){return esc(t).replace(/[.*+?^${}()|[\]\\]/g,'\\$&')});
+  if(!ts.length)return s;
+  return s.replace(new RegExp(ts.join('|'),'gi'),function(m){return '<mark>'+m+'</mark>'});
+}
+function visible(){return DB.entries.filter(function(e){return !e.offline||role()==='admin'})}
+function filtered(){return visible().filter(function(e){return (!ui.dom||e.domain===ui.dom)&&(!ui.form||e.form===ui.form)&&matchQ(e)})}
+function score(e){return e.up.length-e.down.length}
+function sortE(a){
+  var s=ui.sort;
+  return a.slice().sort(function(x,y){
+    if(s==='hot')return score(y)-score(x)||y.ts-x.ts;
+    if(s==='year')return dkey(y)-dkey(x)||y.ts-x.ts;
+    return y.ts-x.ts;
+  });
+}
+function groups(list){
+  var m={},order=[];
+  list.forEach(function(e){if(!m[e.topic]){m[e.topic]=[];order.push(e.topic)}m[e.topic].push(e)});
+  var gs=order.map(function(t){return {t:t,a:sortE(m[t])}});
+  var key=function(g){
+    if(ui.sort==='hot')return g.a.reduce(function(s,e){return s+score(e)},0);
+    if(ui.sort==='year')return Math.max.apply(null,g.a.map(dkey))*1e4+Math.max.apply(null,g.a.map(function(e){return e.ts}))/1e9;
+    return Math.max.apply(null,g.a.map(function(e){return e.ts}));
+  };
+  return gs.sort(function(x,y){return key(y)-key(x)});
+}
+
+/* ---------- rendering: top bar ---------- */
+function renderTop(){
+  var me=cu(),r=role(),pend=r==='admin'?DB.entries.filter(function(e){return apn(e)}).length:0;
+  $('#ctl-l').innerHTML=ui.view==='hall'?'<button class="btn sq only-m" data-act="drawer" aria-label="分类导航">'+ic('menu')+'</button>':'';
+  $('#ctl-l').style.display=ui.view==='hall'?'':'none';
+  var h='';
+  if(r==='admin'){
+    h+='<button class="btn keep" data-act="view" data-v="'+(ui.view==='court'?'hall':'court')+'" '+(ui.view==='court'?'aria-current="page"':'')+'>'+ic('scale')+'<span class="lbl">'+(ui.view==='court'?'返回数据大厅':'上诉仲裁中心')+'</span>'+(pend&&ui.view!=='court'?'<span class="badge">'+pend+'</span>':'')+'</button>';
+  }
+  if(r==='admin')h+='<button class="btn keep" data-act="view" data-v="'+(ui.view==='admin'?'hall':'admin')+'" '+(ui.view==='admin'?'aria-current="page"':'')+'>'+ic('users')+'<span class="lbl">'+(ui.view==='admin'?'返回数据大厅':'管理后台')+'</span></button>';
+  h+='<button class="btn keep" data-act="view" data-v="'+(ui.view==='war'?'hall':'war')+'" '+(ui.view==='war'?'aria-current="page"':'')+' title="'+(rk()<2?'备战夹仅授权贡献者及以上可用':'备战夹')+'">'+ic(rk()<2?'lock':'folder')+'<span class="lbl">'+(ui.view==='war'?'返回数据大厅':'备战夹')+'</span></button>';
+  h+='<button class="btn" data-act="view" data-v="settings" title="账户与权限">'+(me?ic('user')+'<span class="lbl">'+esc(me.name)+'</span>':'')+'<span class="role '+r+'">'+(me?ROLE[r]:'游客 · 登录')+'</span></button>';
+  h+='<button class="btn sq" data-act="settings" aria-label="设置" title="设置" '+(ui.view==='settings'?'aria-current="page"':'')+'>'+ic('gear')+'</button>';
+  $('#ctl').innerHTML=h;
+}
+
+/* ---------- rendering: sidebar ---------- */
+function renderSide(){
+  var qf=visible().filter(matchQ),dc={},fc={};
+  DOMAINS.forEach(function(d){dc[d]=0});FORMS.forEach(function(f){fc[f]=0});
+  var tD=0,tF=0;
+  qf.forEach(function(e){
+    if(!ui.form||e.form===ui.form){dc[e.domain]=(dc[e.domain]||0)+1;tD++}
+    if(!ui.dom||e.domain===ui.dom){fc[e.form]=(fc[e.form]||0)+1;tF++}
+  });
+  function item(kind,v,n,on){return '<button class="fi'+(on?' on':'')+(n===0&&!on?' zero':'')+'" data-act="'+kind+'" data-v="'+esc(v||'')+'"><span>'+esc(v||(kind==='dom'?'显示全部领域':'显示全部形式'))+'</span>'+(n>0?'<span class="n">'+n+'</span>':'')+'</button>'}
+  function group(g,title,kind,list,cnt,tot,cur){
+    return '<div class="sg'+(ui.side[g]?'':' shut')+'"><button class="sg-h" data-act="sidetoggle" data-g="'+g+'" aria-expanded="'+ui.side[g]+'"><span>'+title+'</span>'+ic('chev')+'</button><div class="sg-list">'+
+      item(kind,'',tot,!cur)+list.map(function(x){return item(kind,x,cnt[x]||0,cur===x)}).join('')+'</div></div>';
+  }
+  $('#side').innerHTML=group('dom','核心领域 · '+DOMAINS.length,'dom',DOMAINS,dc,tD,ui.dom)+group('form','资料形式 · '+FORMS.length,'form',FORMS,fc,tF,ui.form);
+}
+
+/* ---------- rendering: hall ---------- */
+function srcHTML(e){
+  var nm=e.srcName||'';
+  if(e.src.t==='url')return '<a class="src" href="'+esc(e.src.v)+'" target="_blank" rel="noopener noreferrer" title="'+esc(e.src.v)+'">'+ic('link')+'<span>'+esc(nm||host(e.src.v))+'</span>'+(nm?'<em>'+esc(host(e.src.v))+'</em>':'')+'</a>';
+  return '<button class="src" data-act="dl" data-id="'+e.id+'" title="'+esc('文件：'+e.src.v+'（点击下载，模拟）')+'">'+ic('file')+'<span>'+esc(nm||e.src.v)+'</span>'+(e.src.size?'<em>'+esc(e.src.size)+'</em>':'')+'</button>';
+}
+function cardHTML(e){
+  var me=cu(),mn=me?me.id:null,ap=apn(e);
+  var up=mn&&e.up.indexOf(mn)>-1,dn=mn&&e.down.indexOf(mn)>-1;
+  var tags='<span class="tag dom">'+esc(e.domain)+'</span><span class="tag form">'+esc(e.form)+'</span>'+(e.year?'<span class="tag yr" title="论据日期">'+fdate(e)+'</span>':'')+
+    (e.verified?'<span class="tag ver">'+ic('check')+'官方已核实</span>':'<span class="tag pend">'+ic('clock')+'待核验数据</span>');
+  if(ap)tags+='<span class="tag flagged" title="'+ap+' 人质询">'+ic('flag')+'[被上诉] '+ap+'人</span>';
+  if(e.offline)tags+='<span class="tag offt">已下架</span>';
+  return '<article class="card'+(ap?' appealed':'')+(e.offline?' off':'')+'" id="c-'+e.id+'">'+
+    '<div class="card-h"><div class="tags">'+tags+'</div><button class="dots" data-act="menu" data-id="'+e.id+'" aria-haspopup="menu" aria-expanded="false" aria-label="更多操作">'+DOTS+'</button></div>'+
+    '<p class="body">'+hl(e.content)+'</p>'+
+    '<div class="card-f"><div class="srcrow"><span class="lab2">出处:</span>'+srcHTML(e)+'</div>'+
+    '<div class="meta"><span>'+esc(e.author)+'</span><span class="time">'+ic('clock')+'录入时间: '+fmt(e.ts)+'</span>'+
+    (e.versions.length>1?'<button class="tag mod" data-act="hist" data-id="'+e.id+'" title="查看修改历史">[已修改]</button>':'')+
+    '<button class="vote up'+(up?' on':'')+'" data-act="vote" data-v="up" data-id="'+e.id+'" aria-pressed="'+!!up+'" aria-label="点赞">'+ic('up')+'<span class="cn">'+e.up.length+'</span></button>'+
+    '<button class="vote down'+(dn?' on':'')+'" data-act="vote" data-v="down" data-id="'+e.id+'" aria-pressed="'+!!dn+'" aria-label="点踩">'+ic('down')+'<span class="cn">'+e.down.length+'</span></button></div></div>'+
+  '</article>';
+}
+function renderHall(){
+  var gs=groups(filtered());
+  var h='<div class="toolbar"><button class="btn pri sm" data-act="new">'+(rk()>=2?ic('plus'):ic('lock'))+'录入新资料</button>'+
+    '<button class="btn sm" data-act="expand">全部展开</button><button class="btn sm" data-act="collapse">全部收起</button><span class="grow"></span>'+
+    '<label class="hint" for="sort">组内排序</label><select class="sel" id="sort"><option value="new">录入时间（最新）</option><option value="year">论据日期（最新）</option><option value="hot">点赞数量（最多）</option></select></div>';
+  var chips='';
+  if(ui.dom)chips+='<span class="fchip">'+esc(ui.dom)+'<button data-act="dom" data-v="" aria-label="清除领域筛选">'+ic('close')+'</button></span>';
+  if(ui.form)chips+='<span class="fchip">'+esc(ui.form)+'<button data-act="form" data-v="" aria-label="清除形式筛选">'+ic('close')+'</button></span>';
+  if(ui.q.trim())chips+='<span class="fchip">搜索：'+esc(ui.q.trim())+'<button data-act="clearq" aria-label="清除搜索">'+ic('close')+'</button></span>';
+  if(chips)h+='<div class="chips">'+chips+'</div>';
+  if(!ONLINE){
+    h+='<div class="setup"><h2>还差一步：连接数据库</h2><div>这个网站已经接好 Supabase，但还没有填你自己的项目信息。</div><ol>'+
+      '<li>用文本编辑器打开 <code>index.html</code>，搜索 <code>VAULT_CONFIG</code>。</li>'+
+      '<li>把 <code>url</code> 改成 Supabase 后台 → Project Settings → API 里的 <b>Project URL</b>。</li>'+
+      '<li>把 <code>anonKey</code> 改成同一页的 <b>anon / publishable key</b>（不要用 service_role）。</li>'+
+      '<li>保存后把文件重新上传到你的网站托管，刷新即可。</li></ol></div>';
+  }else if(!ui.ready){
+    h+='<div class="loading"><i></i>正在连接资料库…</div>';
+  }else if(ui.loadErr){
+    h+='<div class="empty"><b>资料加载失败</b>'+esc(ui.loadErr)+'<div style="margin-top:12px"><button class="btn sm" data-act="reload">重试</button></div></div>';
+  }else if(!DB.entries.length){
+    h+='<div class="empty"><b>资料库还是空的</b>'+(rk()>=2?'点击左上角「录入新资料」放进第一条论据。':'授权贡献者录入资料后，会出现在这里。')+'</div>';
+  }else if(!gs.length){
+    h+='<div class="empty"><b>没有匹配的资料</b>换一个关键词，或清除筛选条件再试。<div style="margin-top:12px"><button class="btn sm" data-act="clear">清除全部条件</button></div></div>';
+  }
+  gs.forEach(function(g){
+    var closed=!ui.q.trim()&&ui.collapsed[g.t];
+    var hasAp=g.a.some(function(e){return apn(e)});
+    h+='<section class="topic'+(closed?' closed':'')+'" data-t="'+esc(g.t)+'"><div class="topic-bar hb"><button class="topic-head" data-act="topic" data-t="'+esc(g.t)+'" aria-expanded="'+!closed+'">'+ic('chev')+
+      '<span class="topic-t"><b>'+hl(g.t)+'</b></span>'+
+      (hasAp?'<span class="tag flagged" title="这一组里有被上诉的资料">'+ic('flag')+'被上诉</span>':'')+
+      '<span class="cnt">共 '+g.a.length+' 份论据</span></button>'+warBtn(g.t)+'</div>'+
+      '<div class="topic-body"><div class="topic-clip"><div class="cards">'+g.a.map(cardHTML).join('')+'</div></div></div></section>';
+  });
+  $('#v-hall').innerHTML=h;
+  $('#sort').value=ui.sort;
+}
+
+/* ---------- rendering: court ---------- */
+function renderCourt(){
+  var cases=DB.entries.filter(function(e){return apn(e)}).sort(function(a,b){return apn(b)-apn(a)});
+  var h='<div class="court-h"><div><h1>上诉仲裁中心</h1><p>通过上诉将彻底清除并作废该资料；驳回上诉将清空全部上诉记录，恢复资料清白。裁决后不可撤销。</p></div>'+
+    '<div class="stats"><div class="stat warn"><b data-n="'+cases.length+'">'+cases.length+'</b><span>待仲裁</span></div><div class="stat"><b data-n="'+cases.reduce(function(s,e){return s+apn(e)},0)+'">'+cases.reduce(function(s,e){return s+apn(e)},0)+'</b><span>上诉人次</span></div><div class="stat"><b data-n="'+DB.court.length+'">'+DB.court.length+'</b><span>已裁决</span></div></div></div>';
+  if(!cases.length)h+='<div class="empty"><b>暂无待仲裁案件</b>库内资料目前均处于清白状态。</div>';
+  cases.forEach(function(e){
+    var open=ui.courtOpen[e.id];
+    h+='<div class="case hot'+(open?' open':'')+'"><div class="case-h"><div class="t"><b>'+esc(e.topic)+'</b><small>'+esc(e.domain)+' · '+esc(e.form)+' · 录入者 '+esc(e.author)+' · '+fmt(e.ts)+'</small></div>'+
+      '<span class="tag flagged">'+ic('flag')+apn(e)+' 人质询</span>'+
+      '<button class="btn sm toggle" data-act="court-open" data-id="'+e.id+'" aria-expanded="'+!!open+'">'+ic('chev')+'展开详情</button>'+
+      '<button class="btn sm solid-danger" data-act="court-pass" data-id="'+e.id+'">通过上诉</button>'+
+      '<button class="btn sm ok" data-act="court-reject" data-id="'+e.id+'">驳回上诉</button></div>'+
+      '<div class="case-b"><div class="note" style="border-left-color:var(--acc)"><b>被争议内容</b><br>'+esc(e.content)+'<div style="margin-top:8px">'+srcHTML(e)+'</div></div>'+
+      e.appeals.map(function(a){return '<div class="ap"><div class="av">'+esc(a.user.slice(0,1).toUpperCase())+'</div><div style="min-width:0"><b>'+esc(a.user)+'</b> <small>'+fmt(a.ts)+'</small><p>'+esc(a.reason)+'</p></div></div>'}).join('')+'</div></div>';
+  });
+  h+='<h3 style="font:600 15px var(--f-display);margin:26px 0 10px">仲裁记录</h3>';
+  if(!DB.court.length)h+='<div class="empty" style="padding:20px">尚无裁决记录。</div>';
+  else h+='<div class="scroll-x"><table class="log"><thead><tr><th>时间</th><th>裁决</th><th>资料</th><th>上诉数</th><th>仲裁人</th></tr></thead><tbody>'+
+    DB.court.slice(0,30).map(function(c){return '<tr><td style="font-family:var(--f-mono);white-space:nowrap">'+fmt(c.ts)+'</td><td><span class="tag '+(c.action==='pass'?'flagged':'ver')+'">'+(c.action==='pass'?'通过 · 已清除':'驳回 · 已复原')+'</span></td><td>'+esc(c.topic||c.title||'')+(c.snip?'<br><small style="color:var(--fg2)">'+esc(c.snip)+'</small>':'')+'</td><td>'+c.n+'</td><td>'+esc(c.admin)+'</td></tr>'}).join('')+'</tbody></table></div>';
+  $('#v-court').innerHTML=h;
+}
+
+/* ---------- rendering: settings ---------- */
+function renderSettings(){
+  var me=cu(),r=role(),dark=effDark(),rp=resolvedPalette();
+  var h='<div class="set-h"><h1>设置</h1><p>账户权限、外观配色与数据管理都在这里。外观偏好保存在本浏览器，账户与资料保存在云端数据库。</p></div><div class="set-grid">';
+
+  h+='<section class="panel" aria-labelledby="s-acc"><h2 id="s-acc">账户与权限</h2>';
+  if(!me){
+    h+='<div class="idcard">'+ic('user')+'<div style="flex:1;min-width:0"><b>游客</b><div class="hint">仅可浏览资料。登录后可点赞 / 点踩，并可输入密钥提权。</div></div><span class="role visitor">游客</span></div>'+
+       '<div class="inline"><button class="btn pri" data-act="auth">登录</button><button class="btn" data-act="auth-reg">注册新账户</button></div>';
+  }else{
+    h+='<div class="idcard">'+ic('user')+'<div style="flex:1;min-width:0"><b>'+esc(me.name)+'</b><div class="hint" style="overflow-wrap:anywhere">'+esc(me.email||'')+(r==='banned'?' · 账户已被限制':' · 切换身份无需登出')+'</div></div><span class="role '+r+'">'+ROLE[r]+'</span></div>'+
+       '<div class="field"><label for="nm-in">用户名</label><div class="inline"><input class="in" id="nm-in" maxlength="16" value="'+esc(me.name)+'"><button class="btn" data-act="name-go">修改</button></div><div class="err" id="nm-err" role="alert"></div></div>'+
+       '<div class="sub"><h3>切换模式</h3><div class="field"><label for="k-in">授权密钥</label><div class="inline"><input class="in" id="k-in" type="password" autocomplete="off" placeholder="输入贡献者或管理员密钥"><button class="btn pri" data-act="key-go">验证并切换</button></div><div class="err" id="k-err" role="alert"></div></div>'+
+       '<div class="inline">'+(r!=='member'&&r!=='banned'?'<button class="btn sm" data-act="down" data-v="member">降为普通会员</button>':'')+(r==='admin'?'<button class="btn sm" data-act="down" data-v="contributor">降为贡献者</button>':'')+'</div></div>'+
+       '<div><button class="btn danger sm" data-act="logout">退出登录</button></div>';
+  }
+  var rows=[['visitor','仅可检索、浏览资料'],['member','登录后可点赞 / 点踩；录入、修正与上诉需提权'],['contributor','会员全部权限，另可录入新资料、修正历史资料、发起上诉'],['admin','贡献者全部权限，另有官方核验、下架与上诉仲裁']];
+  h+='<div class="sub"><h3>权限等级</h3><table class="perm">'+rows.map(function(x){return '<tr'+(x[0]===r?' class="me"':'')+'><td><span class="role '+x[0]+'">'+ROLE[x[0]]+'</span></td><td>'+x[1]+(x[0]===r?' <b>· 当前</b>':'')+'</td></tr>'}).join('')+'</table></div></section>';
+
+  h+='<section class="panel" aria-labelledby="s-look"><h2 id="s-look">外观</h2>'+
+    '<div class="sub"><h3>明暗模式</h3><div class="seg" role="group" aria-label="明暗模式">'+
+    [['system','跟随系统'],['dark','深色'],['light','浅色']].map(function(x){return '<button data-act="mode-set" data-v="'+x[0]+'" class="'+(P.mode===x[0]?'on':'')+'" aria-pressed="'+(P.mode===x[0])+'">'+x[1]+'</button>'}).join('')+'</div></div>'+
+    '<div class="sub"><h3>配色方案</h3><div class="pals">'+
+    PALETTES.map(function(p){
+      var q=p.id==='auto'?palById(rp):p,s=swatch(q);
+      return '<button class="pal'+(P.palette===p.id?' on':'')+'" data-act="pal" data-v="'+p.id+'" aria-pressed="'+(P.palette===p.id)+'"><span class="pv" style="background:'+s.bg+';border-color:'+s.line+'"><i style="background:'+s.acc+'"></i><i style="background:'+s.acc2+'"></i><i style="background:'+s.bg3+';border:1px solid '+s.line+'"></i></span><b>'+p.name+'</b><small>'+p.desc+'</small></button>';
+    }).join('')+'</div></div>'+
+    '<div class="sub"><h3>强调色</h3><div class="sws"><button class="sw'+(P.accent===null?' on':'')+'" data-act="acc" data-v="" aria-pressed="'+(P.accent===null)+'"><i style="background:'+(dark?hsl(palById(rp).ha,palById(rp).as,66):hsl(palById(rp).ha,palById(rp).as+8,32))+'"></i>跟随方案</button>'+
+    ACCENTS.map(function(a){var base=palById(rp),c=dark?hsl(a.h,base.as,66):hsl(a.h,base.as+8,32);return '<button class="sw'+(P.accent===a.h?' on':'')+'" data-act="acc" data-v="'+a.h+'" aria-pressed="'+(P.accent===a.h)+'"><i style="background:'+c+'"></i>'+a.n+'</button>'}).join('')+'</div>'+
+    '<div class="hint">所有配色都经过降饱和处理，底色、文字与强调色按固定明度搭配，长时间阅读不刺眼。</div></div>'+
+    '<div class="sub"><h3>动效</h3><div class="seg" role="group" aria-label="动效">'+
+    [['auto','默认'],['reduce','减少动效']].map(function(x){return '<button data-act="motion" data-v="'+x[0]+'" class="'+(P.motion===x[0]?'on':'')+'" aria-pressed="'+(P.motion===x[0])+'">'+x[1]+'</button>'}).join('')+'</div></div></section>';
+
+  h+='<section class="panel" aria-labelledby="s-data"><h2 id="s-data">数据管理</h2>';
+  if(r==='admin'){
+    var json=JSON.stringify({entries:DB.entries.map(function(e){var c=Object.assign({},e);delete c.up;delete c.down;delete c.appeals;return c}),court:DB.court,war:WAR},null,1);
+    h+='<div class="field"><label for="b-out">导出（全部资料、仲裁记录与备战夹）</label><textarea class="ta" id="b-out" readonly style="font-family:var(--f-mono);font-size:12px;min-height:110px">'+esc(json)+'</textarea><div><button class="btn sm" data-act="b-copy">'+ic('copy')+'复制 JSON</button></div></div>'+
+      '<div class="field"><label for="b-in">导入旧版导出的资料（追加到云端数据库，不会覆盖现有资料）</label><textarea class="ta" id="b-in" style="font-family:var(--f-mono);font-size:12px;min-height:90px" placeholder="粘贴之前导出的 JSON"></textarea><div class="err" id="b-e" role="alert"></div><div><button class="btn sm pri" data-act="b-import">导入</button></div></div>';
+  }else{
+    h+='<div class="note">资料的导出、导入与重置仅官方管理员可用。</div>';
+  }
+  h+='<div class="sub"><h3>云端数据</h3><div class="hint">账户、资料、备战夹都保存在 Supabase 数据库，换设备登录即可看到，别人的改动会实时出现。</div><div><button class="btn sm" data-act="reload">立即刷新数据</button></div></div></section>';
+
+  h+='<section class="panel" aria-labelledby="s-about"><h2 id="s-about">快捷键与说明</h2>'+
+    '<div class="keys"><div><span class="kbd">/</span>聚焦搜索框</div><div><span class="kbd">Esc</span>关闭弹窗、菜单或侧栏</div></div>'+
+    '<div class="note">资料由授权贡献者录入，引用前请自行核验出处。文献文件只记录文件名与大小，下载为模拟效果。</div></section>';
+  h+='</div>';
+  $('#v-settings').innerHTML=h;
+}
+
+function render(){
+  if((ui.view==='court'||ui.view==='admin')&&role()!=='admin'||ui.view==='war'&&rk()<2){ui.view='hall';syncViewVisibility()}
+  $('#layout').classList.toggle('nosb',ui.view!=='hall');
+  renderTop();
+  if(ui.view==='hall'){renderSide();renderHall()}
+  else if(ui.view==='war')renderWar();
+  else if(ui.view==='court')renderCourt();
+  else if(ui.view==='admin')renderAdmin();
+  else renderSettings();
+}
+
+/* ---------- view switching ---------- */
+function syncViewVisibility(){VORDER.forEach(function(v){var el=$('#v-'+v);el.hidden=ui.view!==v;el.classList.remove('in-l','in-r','out-l','out-r')})}
+function setView(v){
+  if((v==='court'||v==='admin')&&role()!=='admin')v='hall';
+  if(v==='war'&&rk()<2){denyDlg('contributor','使用备战夹');return}
+  if(VORDER.indexOf(v)<0)v='hall';
+  if(v===ui.view){render();return}
+  syncViewVisibility();
+  var from=$('#v-'+ui.view),to=$('#v-'+v),dir=VORDER.indexOf(v)>VORDER.indexOf(ui.view)?'l':'r',tok=++ui.tok;
+  ui.view=v;render();
+  try{history.replaceState(null,'','#'+v)}catch(e){}
+  $('#side').classList.remove('open');$('#scrim').classList.remove('show');
+  from.classList.add('out-'+dir);
+  setTimeout(function(){
+    if(tok!==ui.tok)return;
+    from.hidden=true;from.classList.remove('out-l','out-r');
+    to.hidden=false;to.classList.add('in-'+dir);
+    window.scrollTo({top:0});
+    if(v==='hall')playEnter();
+    if(v==='court')$$('#v-court [data-n]').forEach(countUp);
+    if(v==='admin')loadAdmin();
+    if(v==='settings'||v==='court'||v==='admin'){
+      $$('#v-'+v+' .panel,#v-'+v+' .case').forEach(function(p,i){p.style.setProperty('--i',Math.min(i,8));p.classList.add('enterp')});
+      setTimeout(function(){$$('.enterp').forEach(function(p){p.classList.remove('enterp')})},1400);
+    }
+    setTimeout(function(){to.classList.remove('in-l','in-r')},340);
+  },190);
+}
+
+/* ---------- popover ---------- */
+var pop=$('#pop');
+function closePop(){pop.hidden=true;pop.innerHTML='';ui.popKey=null;$$('.dots[aria-expanded="true"]').forEach(function(b){b.setAttribute('aria-expanded','false')})}
+function openPop(anchor,html,key){
+  pop.innerHTML=html;pop.hidden=false;ui.popKey=key;
+  var r=anchor.getBoundingClientRect(),w=pop.offsetWidth,hh=pop.offsetHeight;
+  var left=Math.min(Math.max(8,r.right-w),window.innerWidth-w-8);
+  var top=r.bottom+6;if(top+hh>window.innerHeight-8)top=Math.max(8,r.top-hh-6);
+  pop.style.left=left+'px';pop.style.top=top+'px';
+}
+function menuHTML(e){
+  var me=cu(),r=role(),canC=rk()>=2,mine=me&&e.appeals.some(function(a){return a.userId===me.id});
+  function mi(act,icn,label,lock,cls){return '<button class="mi'+(lock?' lock':'')+(cls?' '+cls:'')+'" data-act="'+act+'" data-id="'+e.id+'">'+ic(lock?'lock':icn)+'<span>'+label+'</span></button>'}
+  var h='<div class="ph">'+esc(snip(e.topic,20))+'</div>';
+  h+=mi('m-edit','edit','修正论据内容',!canC);
+  h+=mine?mi('m-withdraw','undo','回撤我的上诉',!canC):mi('m-appeal','flag','发起真实性上诉',!canC,'bad');
+  h+=mi('m-copy','copy','复制引用格式',false);
+  if(r==='admin'){
+    h+='<hr>'+mi('m-verify','check',e.verified?'取消官方核验':'官方核验通过',false)+mi('m-offline','off',e.offline?'重新上架':'下架该资料',false,'bad');
+  }
+  return h;
+}
+
+/* ---------- modal system ---------- */
+var mhost=$('#mhost'),lastFocus=null;
+function closeModal(){mhost.innerHTML='';if(lastFocus&&lastFocus.focus)try{lastFocus.focus()}catch(e){}lastFocus=null}
+function modal(o){
+  lastFocus=document.activeElement;
+  var acts=(o.actions||[]);
+  mhost.innerHTML='<div class="ov" id="ov"><div class="modal'+(o.wide?' wide':'')+'" role="dialog" aria-modal="true" aria-labelledby="m-t"><div class="m-h"><h2 id="m-t">'+o.title+'</h2><button class="btn sm sq" data-act="mclose" aria-label="关闭">'+ic('close')+'</button></div><div class="m-b">'+o.body+'</div><div class="m-f">'+
+    acts.map(function(a,i){return '<button class="btn '+(a.cls||'')+'" data-mi="'+i+'">'+a.label+'</button>'}).join('')+'</div></div></div>';
+  var ov=$('#ov');
+  ov.addEventListener('mousedown',function(ev){if(ev.target===ov)closeModal()});
+  $$('[data-mi]',ov).forEach(function(b){b.addEventListener('click',function(){
+    var a=acts[+b.dataset.mi];var res=a.fn?a.fn(b):undefined;if(res!==false&&!a.keep)closeModal();
+  })});
+  ov.addEventListener('keydown',function(ev){
+    if(ev.key==='Enter'&&ev.target.tagName==='INPUT'&&ev.target.type!=='file'){
+      var p=$('.btn.pri,.btn.solid-danger',ov);if(p){ev.preventDefault();p.click()}
+    }
+  });
+  var f=$('input:not([type=file]),textarea',ov)||$('.btn.pri',ov);if(f)f.focus();
+  if(o.onOpen)o.onOpen(ov);
+}
+function confirmDlg(title,msg,label,danger,fn){
+  modal({title:title,body:'<p style="margin:0;overflow-wrap:anywhere">'+msg+'</p>',actions:[{label:'取消'},{label:label,cls:danger?'solid-danger':'pri',fn:fn}]});
+}
+
+/* ---------- auth (Supabase: username + email + password) ---------- */
+function openAuth(tab){
+  var reg=tab==='register';
+  modal({title:reg?'注册账户':'登录国库',
+    body:(reg
+      ?'<div class="field"><label for="a-u">用户名</label><input class="in" id="a-u" autocomplete="username" maxlength="16" placeholder="2–16 位，支持中文；会显示给其他人"></div>'+
+       '<div class="field"><label for="a-m">邮箱</label><input class="in" id="a-m" type="email" autocomplete="email" placeholder="name@example.com"></div>'
+      :'<div class="field"><label for="a-m">邮箱</label><input class="in" id="a-m" type="email" autocomplete="email" placeholder="注册时填的邮箱"></div>')+
+      '<div class="field"><label for="a-p">密码</label><input class="in" id="a-p" type="password" autocomplete="'+(reg?'new-password':'current-password')+'" placeholder="至少 6 位"></div>'+
+      (reg?'<div class="field"><label for="a-c">确认密码</label><input class="in" id="a-c" type="password" autocomplete="new-password"></div>':'')+
+      '<div class="err" id="a-e" role="alert"></div>'+
+      '<div class="hint">'+(reg?'注册后默认为「普通会员」，可在设置中用授权密钥提权。':'')+(reg?'<br>已有账户？<a href="#" data-act="auth-switch" data-v="login">去登录</a>':'还没有账户？<a href="#" data-act="auth-switch" data-v="register">立即注册</a>')+'</div>',
+    actions:[{label:'取消'},{label:reg?'注册':'登录',cls:'pri',keep:true,fn:function(btn){
+      var u=reg?$('#a-u').value.trim():'',p=$('#a-p').value,err=$('#a-e');
+      function bad(m){err.textContent=m;return false}
+      if(!ONLINE)return bad('网站还没有连接数据库：请先按页面上的提示填好 Supabase 的网址和 key');
+      var mail=$('#a-m').value.trim();
+      if(reg){
+        if(!/^[\w一-龥-]{2,16}$/.test(u))return bad('用户名需为 2–16 位的字母、数字、下划线或中文');
+        if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail))return bad('请输入有效的邮箱地址');
+        if(p.length<6)return bad('密码至少 6 位');
+        if(p!==$('#a-c').value)return bad('两次输入的密码不一致');
+      }else{
+        if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail))return bad('请输入注册时用的邮箱地址');
+        if(!p)return bad('请输入密码');
+      }
+      err.textContent='';btn.disabled=true;
+      (async function(){
+        try{
+          ui.welcome=reg?'register':'login';
+          if(reg){
+            var r=await API.Auth.signUp(u,mail,p);
+            if(r.needsConfirm){
+              ui.welcome=null;closeModal();
+              modal({title:'请先确认邮箱',body:'<div class="note">确认邮件已发送到 <b>'+esc(mail)+'</b>。点开邮件里的链接确认后，回到这里用邮箱和密码登录即可。没收到的话请看垃圾邮件箱。</div>',actions:[{label:'知道了',cls:'pri'}]});
+              return;
+            }
+          }else await API.Auth.signIn(mail,p);
+          closeModal();
+        }catch(e){ui.welcome=null;btn.disabled=false;bad(errMsg(e))}
+      })();
+      return false;
+    }}]});
+}
+
+/* ---------- account actions that live in Settings ---------- */
+function gotoSettings(){
+  setView('settings');
+  setTimeout(function(){var k=$('#k-in'),b=$('[data-act="auth"]');if(k)k.focus();else if(b)b.focus()},420);
+}
+function redeemKey(){
+  var inp=$('#k-in'),er=$('#k-err'),k=inp.value.trim();
+  if(!k){er.textContent='请输入密钥';return}
+  er.textContent='';
+  API.Data.redeemKey(k).then(async function(nr){
+    if(!nr){er.textContent='密钥无效、已过期或已用完';toast('密钥无效、已过期或已用完','err');return}
+    inp.value='';await afterRoleChange();toast('已切换为「'+ROLE[nr]+'」','ok');
+  }).catch(function(e){er.textContent=errMsg(e)});
+}
+function lowerRole(r){
+  API.Data.lowerMyRole(r).then(async function(){await afterRoleChange();toast('已切换为「'+ROLE[r]+'」','ok')}).catch(function(e){toast(errMsg(e),'bad')});
+}
+function saveMyName(){
+  var inp=$('#nm-in'),er=$('#nm-err'),n=inp.value.trim();
+  if(!n||ME&&n===ME.name){er.textContent='请输入新的用户名';return}
+  if(!/^[\w一-龥-]{2,16}$/.test(n)){er.textContent='用户名需为 2–16 位的字母、数字、下划线或中文';return}
+  er.textContent='';
+  API.Auth.updateName(n).then(async function(){await afterRoleChange();toast('用户名已更新','ok')}).catch(function(e){er.textContent=errMsg(e)});
+}
+async function doLogout(){
+  try{await API.Auth.signOut()}catch(e){}
+  ME=null;curUser=null;lastUid=null;
+  if(ui.view==='court'||ui.view==='admin'||ui.view==='war'){ui.view='hall';syncViewVisibility()}
+  await refresh();toast('已退出登录');
+}
+
+/* ---------- admin console: users, access keys, audit log ---------- */
+async function loadAdmin(silent){
+  if(!ONLINE||role()!=='admin')return;
+  ADM.busy=true;if(!silent&&ui.view==='admin')renderAdmin();
+  try{
+    var r=await Promise.all([API.Admin.users(),API.Admin.keys(),API.Admin.adminLog().catch(function(){return []})]);
+    ADM.users=r[0];ADM.keys=r[1];ADM.log=r[2];ADM.err=null;
+  }catch(e){ADM.err=errMsg(e)}
+  ADM.busy=false;
+  if(ui.view==='admin'){
+    var a=document.activeElement;
+    if(!(a&&/INPUT|SELECT/.test(a.tagName)&&$('#v-admin').contains(a)))renderAdmin();
+  }
+}
+function keyState(k){
+  if(k.revoked)return ['已作废','offt'];
+  if(k.expires_at&&Date.parse(k.expires_at)<Date.now())return ['已过期','offt'];
+  if(k.max_uses!==null&&k.uses>=k.max_uses)return ['已用完','offt'];
+  return ['有效','ver'];
+}
+function renderAdmin(){
+  var U=ADM.users||[],K=ADM.keys||[],L=ADM.log||[],meId=ME?ME.id:'';
+  var cnt=function(f){return U.filter(f).length};
+  var h='<div class="court-h"><div><h1>管理后台</h1><p>在这里管理谁可以做什么：调整用户身份、限制账户，以及生成与作废授权密钥。所有操作都由数据库校验并记入操作日志。</p></div>'+
+    '<div class="stats"><div class="stat"><b>'+U.length+'</b><span>注册用户</span></div><div class="stat"><b>'+cnt(function(u){return u.role==='contributor'})+'</b><span>贡献者</span></div>'+
+    '<div class="stat"><b>'+cnt(function(u){return u.role==='admin'})+'</b><span>管理员</span></div><div class="stat warn"><b>'+cnt(function(u){return u.banned})+'</b><span>已限制</span></div>'+
+    '<button class="btn sm" data-act="adm-reload">'+(ADM.busy?'刷新中…':'刷新')+'</button></div></div>';
+  if(ADM.err)h+='<div class="note" style="margin-bottom:14px;border-left-color:var(--bad)">加载失败：'+esc(ADM.err)+'</div>';
+  h+='<div class="adm-grid"><section class="panel" aria-labelledby="a-users"><h2 id="a-users">用户</h2>';
+  if(!ADM.users)h+='<div class="hint">正在加载…</div>';
+  else h+='<div class="scroll-x"><table class="log"><thead><tr><th>用户名</th><th>邮箱</th><th>身份</th><th>状态</th><th>录入</th><th>注册 / 最近登录</th><th></th></tr></thead><tbody>'+
+    U.map(function(u){
+      var self=u.id===meId;
+      return '<tr><td><b>'+esc(u.name)+'</b>'+(self?' <span class="tag">我</span>':'')+'</td><td style="overflow-wrap:anywhere">'+esc(u.email||'')+'</td>'+
+        '<td><select class="sel" data-act="adm-role" data-id="'+u.id+'" aria-label="'+esc(u.name)+' 的身份"'+(self?' disabled title="不能修改自己的身份"':'')+'>'+
+          [['member','普通会员'],['contributor','授权贡献者'],['admin','官方管理员']].map(function(r){return '<option value="'+r[0]+'"'+(u.role===r[0]?' selected':'')+'>'+r[1]+'</option>'}).join('')+'</select></td>'+
+        '<td>'+(u.banned?'<span class="tag flagged">已限制</span>':'<span class="tag ver">正常</span>')+'</td><td>'+u.entries+'</td>'+
+        '<td style="font-family:var(--f-mono);font-size:12px;white-space:nowrap">'+fmt(Date.parse(u.created_at))+'<br>'+(u.last_sign_in_at?fmt(Date.parse(u.last_sign_in_at)):'—')+'</td>'+
+        '<td>'+(self?'':'<button class="btn sm '+(u.banned?'ok':'danger')+'" data-act="adm-ban" data-id="'+u.id+'" data-v="'+(u.banned?'0':'1')+'" data-n="'+esc(u.name)+'">'+(u.banned?'解除限制':'限制账户')+'</button>')+'</td></tr>';
+    }).join('')+'</tbody></table></div><div class="hint">被限制的账户仍可浏览资料，但不能点赞、录入、上诉或使用备战夹。</div>';
+  h+='</section>';
+
+  h+='<section class="panel" aria-labelledby="a-keys"><h2 id="a-keys">授权密钥</h2>'+
+    '<div class="hint">用户在「设置 → 切换模式」里输入密钥即可提权。数据库只保存密钥的哈希，明文只在生成时显示一次。</div>'+
+    '<div class="row3 keyform"><div class="field"><label for="ak-l">备注（给谁用）</label><input class="in" id="ak-l" maxlength="30" placeholder="例如：2026 校队新成员"></div>'+
+    '<div class="field"><label for="ak-r">授予身份</label><select class="in" id="ak-r"><option value="contributor">授权贡献者</option><option value="admin">官方管理员</option></select></div>'+
+    '<div class="field"><label for="ak-n">可用次数（空＝不限）</label><input class="in" id="ak-n" type="number" min="1" max="1000" placeholder="例如 10"></div></div>'+
+    '<div class="row2"><div class="field"><label for="ak-d">有效天数（空＝长期有效）</label><input class="in" id="ak-d" type="number" min="1" max="3650" placeholder="例如 30"></div>'+
+    '<div class="field"><label>&nbsp;</label><button class="btn pri" data-act="adm-key-new">'+ic('plus')+'生成新密钥</button></div></div><div class="err" id="ak-e" role="alert"></div>';
+  if(ADM.keys){
+    h+=K.length?'<div class="scroll-x"><table class="log"><thead><tr><th>备注</th><th>身份</th><th>使用</th><th>到期</th><th>状态</th><th></th></tr></thead><tbody>'+
+      K.map(function(k){var st=keyState(k);return '<tr><td>'+esc(k.label)+'<br><small style="color:var(--fg2)">'+esc(k.created_by||'')+' · '+fmt(Date.parse(k.created_at))+'</small></td><td><span class="role '+k.role+'">'+ROLE[k.role]+'</span></td>'+
+        '<td>'+k.uses+(k.max_uses!==null?' / '+k.max_uses:' / 不限')+'</td><td>'+(k.expires_at?fmt(Date.parse(k.expires_at)):'长期')+'</td><td><span class="tag '+st[1]+'">'+st[0]+'</span></td>'+
+        '<td>'+(st[0]==='有效'?'<button class="btn sm danger" data-act="adm-key-revoke" data-id="'+k.id+'" data-n="'+esc(k.label)+'">作废</button>':'')+'</td></tr>'}).join('')+'</tbody></table></div>'
+      :'<div class="hint">还没有生成过密钥。</div>';
+  }
+  h+='</section>';
+
+  h+='<section class="panel" aria-labelledby="a-log"><h2 id="a-log">操作日志</h2>';
+  h+=!ADM.log?'<div class="hint">正在加载…</div>':L.length?'<div class="scroll-x"><table class="log"><thead><tr><th>时间</th><th>管理员</th><th>操作</th><th>对象 / 详情</th></tr></thead><tbody>'+
+    L.slice(0,40).map(function(l){return '<tr><td style="font-family:var(--f-mono);white-space:nowrap">'+fmt(Date.parse(l.created_at))+'</td><td>'+esc(l.admin_name)+'</td><td>'+esc(ADM_ACT[l.action]||l.action)+'</td><td style="overflow-wrap:anywhere;font-size:12.5px">'+esc(admTarget(l))+'</td></tr>'}).join('')+'</tbody></table></div>'
+    :'<div class="hint">还没有操作记录。</div>';
+  h+='</section></div>';
+  $('#v-admin').innerHTML=h;
+}
+var ADM_ACT={set_role:'调整身份',ban:'限制账户',unban:'解除限制',create_key:'生成密钥',revoke_key:'作废密钥',import:'导入资料',admin_set_verified:'官方核验',admin_set_offline:'上架/下架'};
+function admTarget(l){
+  var d=l.detail||{},u=(ADM.users||[]).filter(function(x){return x.id===l.target})[0],name=u?u.name:(l.target||'');
+  if(l.action==='set_role')return name+' → '+(ROLE[d.role]||d.role);
+  if(l.action==='create_key')return (ROLE[l.target]||l.target)+(d.label?'：'+d.label:'');
+  if(l.action==='import')return d.count+' 条';
+  if(l.action==='revoke_key'){var k=(ADM.keys||[]).filter(function(x){return x.id===l.target})[0];return k?k.label:'';}
+  var en=getE(l.target),tt=en?'「'+snip(en.topic,14)+'」':'（该资料已被清除）';
+  if(l.action==='admin_set_verified')return (d.value?'核验通过 ':'取消核验 ')+tt;
+  if(l.action==='admin_set_offline')return (d.value?'下架 ':'上架 ')+tt;
+  return name;
+}
+function admError(e){toast(errMsg(e),'bad',4200);loadAdmin(true)}
+function admNewKey(){
+  var er=$('#ak-e'),label=$('#ak-l').value.trim(),r=$('#ak-r').value,n=$('#ak-n').value,d=$('#ak-d').value;
+  if(!label){er.textContent='请填写备注，方便以后知道这个密钥给了谁';return}
+  var nn=n===''?null:parseInt(n,10),dd=d===''?null:parseInt(d,10);
+  if(nn!==null&&!(nn>=1)||dd!==null&&!(dd>=1)){er.textContent='次数和天数需要是正整数，或留空';return}
+  er.textContent='';
+  API.Admin.createKey(label,r,nn,dd).then(function(key){
+    modal({title:'密钥已生成',
+      body:'<div class="note">请现在就复制并发给对方。<b>关闭这个窗口后将无法再次查看明文</b>，数据库里只保存哈希。</div>'+
+        '<div class="field"><label>'+esc(ROLE[r])+' 密钥</label><input class="in keybox" id="kb" readonly value="'+esc(key)+'"></div>',
+      actions:[{label:'复制密钥',cls:'pri',keep:true,fn:function(){copyText(key,'已复制密钥');return false}},{label:'完成'}],
+      onOpen:function(){var b=$('#kb');if(b){b.focus();b.select()}}});
+    loadAdmin(true);$('#ak-l').value='';
+  }).catch(function(e){er.textContent=errMsg(e)});
+}
+
+/* ---------- entries ---------- */
+function opts(list,sel){return list.map(function(x){return '<option'+(x===sel?' selected':'')+'>'+esc(x)+'</option>'}).join('')}
+function openNew(){
+  if(!need('contributor','录入新资料'))return;
+  var topics={};DB.entries.forEach(function(e){topics[e.topic]=1});
+  var srcT='url';
+  modal({title:'录入新资料',wide:true,
+    body:'<div class="field"><label for="n-topic">数据标题</label><input class="in" id="n-topic" list="n-topics" maxlength="80" placeholder="输入标题；与已有标题相同的资料会汇集在同一组"><datalist id="n-topics">'+Object.keys(topics).map(function(t){return '<option value="'+esc(t)+'">'}).join('')+'</datalist></div>'+
+      '<div class="field"><label for="n-body">数据内容</label><textarea class="ta" id="n-body" maxlength="800" placeholder="写下具体数据或论据，并注明地区与统计口径"></textarea></div>'+
+      dateRow('n',{},'数据的统计年份，如 '+(YMAX-1))+
+      '<div class="field"><label for="n-sname">数据来源（必填）</label><input class="in" id="n-sname" maxlength="60" placeholder="机构、期刊或文献名称"></div>'+
+      '<div class="row2"><div class="field"><label for="n-dom">核心领域</label><select class="in" id="n-dom">'+opts(DOMAINS)+'</select></div><div class="field"><label for="n-form">资料形式</label><select class="in" id="n-form">'+opts(FORMS)+'</select></div></div>'+
+      '<div class="field"><span class="lab">出处凭证（必填）</span><div class="seg" id="n-seg"><button type="button" class="on" data-s="url">网页链接</button><button type="button" data-s="file">文献文件</button></div></div>'+
+      '<div class="field" id="n-urlw"><label for="n-url">网址</label><input class="in" id="n-url" type="url" placeholder="https://"></div>'+
+      '<div class="field" id="n-filew" hidden><label for="n-file">PDF / Word 文件</label><input class="in" id="n-file" type="file" accept=".pdf,.doc,.docx"><div class="hint">仅记录文件名与大小，不会上传文件内容。</div></div>'+
+      '<div class="err" id="n-e" role="alert"></div>',
+    actions:[{label:'取消'},{label:'提交入库',cls:'pri',keep:true,fn:function(btn){
+      var t=$('#n-topic').value.trim(),bo=$('#n-body').value.trim(),err=$('#n-e');
+      function bad(m){err.textContent=m;return false}
+      if(!t)return bad('请填写数据标题');
+      if(bo.length<10)return bad('数据内容至少 10 个字');
+      var dt=readDate('n'),sn=$('#n-sname').value.trim();
+      if(dt.err)return bad(dt.err);
+      if(sn.length<2)return bad('请填写数据来源名称，例如机构、期刊或文献名');
+      var src;
+      if(srcT==='url'){var u=$('#n-url').value.trim();if(!/^https?:\/\/[^\s.]+\.[^\s]+$/i.test(u))return bad('请输入以 http:// 或 https:// 开头的有效网址');src={t:'url',v:u}}
+      else{var fl=$('#n-file').files[0];if(!fl)return bad('请选择一个 PDF 或 Word 文件');if(!/\.(pdf|docx?)$/i.test(fl.name))return bad('仅支持 PDF / Word 文件');src={t:'file',v:fl.name,size:fsize(fl.size)}}
+      if(!ONLINE)return bad('还没有连接数据库');
+      err.textContent='';btn.disabled=true;
+      API.Data.addEntry({topic:t,content:bo,domain:$('#n-dom').value,form:$('#n-form').value,year:dt.year,month:dt.month,day:dt.day,srcName:sn,src:src})
+        .then(function(){closeModal();delete ui.collapsed[t];return refresh()}).then(function(){toast('资料已入库','ok')})
+        .catch(function(e){btn.disabled=false;bad(errMsg(e))});
+      return false;
+    }}],
+    onOpen:function(ov){
+      $$('#n-seg button',ov).forEach(function(b){b.addEventListener('click',function(){
+        srcT=b.dataset.s;$$('#n-seg button',ov).forEach(function(x){x.classList.toggle('on',x===b)});
+        $('#n-urlw').hidden=srcT!=='url';$('#n-filew').hidden=srcT!=='file';
+      })});
+    }});
+}
+function getE(id){return DB.entries.filter(function(e){return e.id===id})[0]}
+function openEdit(e){
+  if(!need('contributor','修正论据内容'))return;
+  modal({title:'修正论据内容',wide:true,
+    body:'<div class="field"><label for="e-topic">数据标题</label><input class="in" id="e-topic" maxlength="80" value="'+esc(e.topic)+'"></div>'+
+      '<div class="field"><label for="e-body">数据内容</label><textarea class="ta" id="e-body" maxlength="800">'+esc(e.content)+'</textarea></div>'+
+      dateRow('e',e)+
+      '<div class="field"><label for="e-sname">数据来源（必填）</label><input class="in" id="e-sname" maxlength="60" value="'+esc(e.srcName||'')+'"></div>'+
+      '<div class="field"><label for="e-note">修改说明</label><input class="in" id="e-note" maxlength="60" placeholder="例如：更正数据口径、补充限定语"></div>'+
+      '<div class="note">每次修正都会生成新版本并保留在修改时间轴中，原版本不可删除。修改数据标题会让这条资料移到新的标题分组。</div><div class="err" id="e-e" role="alert"></div>',
+    actions:[{label:'取消'},{label:'保存修正',cls:'pri',keep:true,fn:function(btn){
+      var t=$('#e-topic').value.trim(),bo=$('#e-body').value.trim(),note=$('#e-note').value.trim()||'内容修正';
+      var dt=readDate('e'),sn=$('#e-sname').value.trim();
+      if(!t||bo.length<10){$('#e-e').textContent='标题不能为空，内容至少 10 个字';return false}
+      if(dt.err){$('#e-e').textContent=dt.err;return false}
+      if(sn.length<2){$('#e-e').textContent='请填写数据来源名称';return false}
+      if(t===e.topic&&bo===e.content&&dt.year===e.year&&dt.month===e.month&&dt.day===e.day&&sn===e.srcName){$('#e-e').textContent='未检测到任何改动';return false}
+      $('#e-e').textContent='';btn.disabled=true;
+      API.Data.editEntry(e.id,{topic:t,content:bo,year:dt.year,month:dt.month,day:dt.day,srcName:sn},note)
+        .then(function(v){closeModal();return refresh().then(function(){toast('已保存为第 '+v+' 版','ok')})})
+        .catch(function(er){btn.disabled=false;$('#e-e').textContent=errMsg(er)});
+      return false;
+    }}]});
+}
+function openHist(e){
+  var vs=e.versions.slice().reverse();
+  modal({title:'修改历史',wide:true,
+    body:'<div class="hint">'+esc(e.topic)+' · 共 '+e.versions.length+' 个版本</div><ol class="timeline">'+
+      vs.map(function(v,i){return '<li'+(i===0?' class="cur"':'')+'><div class="tl-h"><b>V'+v.v+'</b>'+(i===0?'<span class="tag ver">当前版本</span>':'')+'<span>'+fmt(v.ts)+'</span><span>'+esc(v.user)+'</span><span class="tag">'+esc(v.note)+'</span></div><div class="tl-c"><small>标题：'+esc(v.topic||v.title||e.topic)+(v.year?' · '+fdate(v):'')+(v.srcName?' · 来源：'+esc(v.srcName):'')+'</small>'+esc(v.content)+'</div></li>'}).join('')+'</ol>',
+    actions:[{label:'关闭',cls:'pri'}]});
+}
+
+/* ---------- appeals (the 24h circuit breaker, 3 appeals / 3 withdrawals per entry, is enforced by the database) ---------- */
+function openAppeal(e){
+  if(!need('contributor','发起真实性上诉'))return;
+  modal({title:'发起真实性上诉',
+    body:'<div class="note"><b>'+esc(e.topic)+'</b><br>'+esc(snip(e.content,80))+'<br>提交后该资料会被标记为「被上诉」并进入待仲裁队列。</div>'+
+      '<div class="field"><label for="p-r">存疑理由</label><textarea class="ta" id="p-r" maxlength="200" placeholder="请具体说明：哪一句话、哪项数据、哪个出处存疑，以及你的依据。"></textarea><div class="err" id="p-e" role="alert"></div></div>'+
+      '<div class="hint">熔断规则：同一资料 24 小时内最多上诉 '+LIMIT+' 次、撤回 '+LIMIT+' 次，由数据库统一计算。</div>',
+    actions:[{label:'取消'},{label:'提交上诉',cls:'solid-danger',keep:true,fn:function(btn){
+      var r=$('#p-r').value.trim();
+      if(r.length<10){$('#p-e').textContent='请至少用 10 个字说明存疑理由';return false}
+      $('#p-e').textContent='';btn.disabled=true;
+      API.Data.appeal(e.id,r).then(function(){closeModal();return refresh().then(function(){toast('上诉已提交，等待管理员仲裁','ok')})})
+        .catch(function(er){btn.disabled=false;$('#p-e').textContent=errMsg(er)});
+      return false;
+    }}]});
+}
+function doWithdraw(e){
+  if(!need('contributor','回撤上诉'))return;
+  confirmDlg('回撤我的上诉','确定回撤对「'+esc(e.topic)+'」下这条资料的上诉吗？24 小时内最多可撤回 '+LIMIT+' 次。','确认回撤',false,function(){
+    API.Data.withdraw(e.id).then(function(){return refresh().then(function(){toast('已回撤你的上诉','ok')})}).catch(function(er){toast(errMsg(er),'bad',4200)});
+  });
+}
+
+/* ---------- download simulation ---------- */
+function simDownload(e){
+  var el=toast('','',60000);
+  el.innerHTML='<div>正在下载 <b>'+esc(e.src.v)+'</b>（模拟）</div><div class="prog"><i></i></div>';
+  var bar=$('i',el),p=0,t=setInterval(function(){
+    p+=8+Math.random()*14;
+    if(p>=100){clearInterval(t);bar.style.width='100%';el.classList.add('ok');el.innerHTML='<b>'+esc(e.src.v)+'</b> 下载完成（模拟，未生成真实文件）';setTimeout(function(){el.kill()},2400)}
+    else bar.style.width=p+'%';
+  },140);
+}
+
+/* ---------- court actions ---------- */
+function courtFail(er){toast(errMsg(er),'bad',4200);refresh()}
+function courtPass(e){
+  confirmDlg('通过上诉 · 彻底清除','将从数据库中永久清除并作废「'+esc(e.topic)+'」下的这条资料：'+esc(snip(e.content,50))+'。此操作不可撤销。','确认清除',true,function(){
+    leaveCase(e.id,'pass',function(){API.Admin.courtPass(e.id).then(function(){return refresh().then(function(){toast('资料已清除作废','ok')})}).catch(courtFail)});
+  });
+}
+function courtReject(e){
+  confirmDlg('驳回上诉 · 恢复清白','将清空「'+esc(e.topic)+'」下这条资料的全部 '+apn(e)+' 条上诉记录，资料恢复正常状态。','确认驳回',false,function(){
+    leaveCase(e.id,'reject',function(){API.Admin.courtReject(e.id).then(function(){return refresh().then(function(){toast('已驳回上诉，资料恢复清白','ok')})}).catch(courtFail)});
+  });
+}
+function copyText(t,okMsg){
+  var done=function(){toast(okMsg,'ok')};
+  try{navigator.clipboard.writeText(t).then(done,function(){toast('浏览器拒绝了复制，请手动选择文本','warn')})}
+  catch(e){toast('浏览器拒绝了复制，请手动选择文本','warn')}
+}
+function importData(){
+  var er=$('#b-e');
+  try{
+    var o=JSON.parse($('#b-in').value);
+    if(!o||!Array.isArray(o.entries))throw 0;
+    o.entries.forEach(function(e){
+      if(!e.topic&&e.title)e.topic=e.title;
+      if(!e.topic||!e.content||!e.src)throw 0;
+      normCat(e);
+    });
+    var n=o.entries.length;
+    confirmDlg('导入到云端数据库','将把 '+n+' 条资料追加到数据库，导入后所有人可见。旧版里的点赞和上诉记录不会带入。','确认导入',false,function(){
+      API.Admin.importEntries(o.entries).then(function(k){return refresh().then(function(){toast('已导入 '+k+' 条资料'+(k<n?'（'+(n-k)+' 条格式不合法被跳过）':''),'ok')})})
+        .catch(function(e){toast(errMsg(e),'bad',4200)});
+    });
+  }catch(err){er.textContent='JSON 格式不正确，或缺少必要字段'}
+}
+
+/* ---------- war folder (备战夹) ----------
+   Shared by every contributor-or-above through the database (tables motions / motion_items, realtime).
+   WAR is the in-memory copy: { motions:[ {id,name,active,by,ts, items:{ <数据标题>:{ids:[entryId…],ts,by} } } ] }.
+   It only stores references to entries, never copies, so nothing here changes the hall or the entries table. */
+function wcatch(er){toast(errMsg(er),'bad',4200);refresh()}
+
+function actM(){return WAR.motions.filter(function(m){return m.active})}
+function warM(id){return WAR.motions.filter(function(m){return m.id===id})[0]}
+function selM(){var m=warM(ui.warSel);if(!m){m=actM()[0]||WAR.motions[0]||null;ui.warSel=m?m.id:null}return m}
+function topicIds(t){return DB.entries.filter(function(e){return e.topic===t&&!e.offline}).map(function(e){return e.id})}
+function orderIds(ids){var s={};ids.forEach(function(i){s[i]=1});return DB.entries.filter(function(e){return s[e.id]}).map(function(e){return e.id})}
+function liveIds(m,t){
+  var it=m.items[t];if(!it)return [];
+  var ok={};DB.entries.forEach(function(e){if(e.topic===t&&!e.offline)ok[e.id]=1});
+  return it.ids.filter(function(i){return ok[i]});
+}
+function sameSet(a,b){if(a.length!==b.length)return false;var s={};a.forEach(function(i){s[i]=1});return b.every(function(i){return s[i]})}
+function curIds(m,t){var d=ui.warDraft[m.id];return d&&d[t]?d[t]:liveIds(m,t)}
+function setDraft(m,t,arr){var d=ui.warDraft[m.id]||(ui.warDraft[m.id]={});d[t]=arr}
+function dropDraft(m,t){var d=ui.warDraft[m.id];if(d)delete d[t]}
+function isDirty(m){var d=ui.warDraft[m.id];return !!d&&Object.keys(d).some(function(t){return m.items[t]&&!sameSet(d[t],liveIds(m,t))})}
+function mStats(m){var k=Object.keys(m.items),n=0;k.forEach(function(t){n+=liveIds(m,t).length});return {t:k.length,n:n}}
+function addTo(m,t){var ids=topicIds(t);m.items[t]={ids:ids,ts:Date.now(),by:cu().name};return API.War.saveItem(m.id,t,ids,cu().name)}
+
+/* hall: the 备战 button on each data title */
+function warBtn(t){
+  var locked=rk()<2,n=locked?0:actM().filter(function(m){return m.items[t]}).length;
+  return '<button class="btn sm keep war-btn'+(n?' on':'')+'" data-act="war-add" data-t="'+esc(t)+'" aria-pressed="'+(n>0)+'" title="'+(locked?'备战夹仅授权贡献者及以上可用':n?'再点一次取消备战':'加入备战夹')+'">'+
+    ic(locked?'lock':n?'check':'folder')+'<span class="lbl">'+(n?'已备战'+(n>1?' · '+n:''):'备战')+'</span></button>';
+}
+function refreshWarBtns(){$$('#v-hall .war-btn').forEach(function(b){b.outerHTML=warBtn(b.dataset.t)})}
+function warToggle(t){
+  if(!need('contributor','使用备战夹'))return;
+  var act=actM();
+  if(!act.length){
+    modal({title:'还没有正在备战的辩题',body:'<div class="note">先到备战夹新建（或恢复）一个正在备战的辩题，再回到数据大厅点击数据标题上的「备战」。</div>',
+      actions:[{label:'稍后'},{label:'前往备战夹',cls:'pri',fn:function(){setTimeout(function(){setView('war')},0)}}]});
+    return;
+  }
+  if(act.length>1){openWarPick(t,act);return}
+  var m=act[0];
+  if(m.items[t]){delete m.items[t];dropDraft(m,t);refreshWarBtns();toast('已从「'+m.name+'」备战夹取消');API.War.removeItem(m.id,t).catch(wcatch)}
+  else{var pr=addTo(m,t);refreshWarBtns();toast('已加入「'+m.name+'」备战夹','ok');pr.catch(wcatch)}
+}
+function openWarPick(t,act){
+  modal({title:'加入备战夹',
+    body:'<div class="note"><b>'+esc(t)+'</b><br>勾选要加入的备战辩题（可多选）；取消勾选即从该辩题的备战夹中移除。</div><div class="wpick">'+
+      act.map(function(m){return '<label class="wp"><input type="checkbox" value="'+m.id+'"'+(m.items[t]?' checked':'')+'><span>'+esc(m.name)+'</span></label>'}).join('')+'</div>',
+    actions:[{label:'取消'},{label:'确定',cls:'pri',fn:function(){
+      var na=0,nr=0,ps=[];
+      $$('.wp input',$('#ov')).forEach(function(c){
+        var m=warM(c.value);if(!m)return;
+        if(c.checked&&!m.items[t]){ps.push(addTo(m,t));na++}
+        else if(!c.checked&&m.items[t]){delete m.items[t];dropDraft(m,t);ps.push(API.War.removeItem(m.id,t));nr++}
+      });
+      if(na||nr){Promise.all(ps).catch(wcatch);refreshWarBtns();toast((na?'已加入 '+na+' 个备战夹':'')+(na&&nr?'，':'')+(nr?'已从 '+nr+' 个备战夹取消':''),'ok')}
+    }}]});
+}
+
+/* war view */
+function wrowHTML(t,e,on){
+  var nm=e.srcName||(e.src.t==='url'?host(e.src.v):e.src.v);
+  return '<label class="wrow'+(on?'':' unsel')+'"><input type="checkbox" data-act="war-chk" data-id="'+e.id+'" data-t="'+esc(t)+'"'+(on?' checked':'')+' aria-label="选择这条论据">'+
+    '<span class="wr-b"><span class="tags"><span class="tag dom">'+esc(e.domain)+'</span><span class="tag form">'+esc(e.form)+'</span>'+(e.year?'<span class="tag yr">'+fdate(e)+'</span>':'')+
+    (e.verified?'<span class="tag ver">'+ic('check')+'官方已核实</span>':'')+(apn(e)?'<span class="tag flagged">'+ic('flag')+'[被上诉] '+apn(e)+'人</span>':'')+'</span>'+
+    '<p class="body">'+esc(e.content)+'</p><span class="hint">出处：'+esc(nm)+'</span></span></label>';
+}
+function warTopicHTML(m,t){
+  var es=DB.entries.filter(function(e){return e.topic===t&&!e.offline}),sel={};
+  curIds(m,t).forEach(function(i){sel[i]=1});
+  var n=es.filter(function(e){return sel[e.id]}).length;
+  return '<section class="topic wtopic" data-t="'+esc(t)+'"><div class="topic-bar"><div class="wt"><b>'+esc(t)+'</b><span class="hint">已选 '+n+' / 共 '+es.length+' 条论据</span></div>'+
+    '<div class="wtools"><button class="btn sm" data-act="war-all" data-t="'+esc(t)+'">全选</button><button class="btn sm" data-act="war-none" data-t="'+esc(t)+'">清空</button>'+
+    '<button class="btn sm danger" data-act="war-drop" data-t="'+esc(t)+'">'+ic('close')+'移出备战夹</button></div></div>'+
+    '<div class="cards">'+(es.length?es.map(function(e){return wrowHTML(t,e,!!sel[e.id])}).join(''):'<div class="empty" style="border:0;border-radius:0">该数据标题下暂时没有可用论据（可能已被下架、清除或改了标题）。</div>')+'</div></section>';
+}
+function warDetail(m){
+  var d=isDirty(m),keys=Object.keys(m.items);
+  var h='<div class="wbar"><div class="wbar-t"><b>'+esc(m.name)+'</b><span class="hint">'+(m.active?'备战中':'已结束')+' · 由 '+esc(m.by||'—')+' 创建于 '+fmt(m.ts)+'</span></div><div class="ctl">'+
+    '<button class="btn sm" data-act="war-toggle" data-id="'+m.id+'">'+(m.active?'结束备战':'恢复备战')+'</button>'+
+    '<button class="btn sm" data-act="war-rename" data-id="'+m.id+'">'+ic('edit')+'重命名</button>'+
+    '<button class="btn sm danger" data-act="war-del" data-id="'+m.id+'" aria-label="删除这个备战辩题">'+ic('trash')+'</button>'+
+    '<button class="btn sm" data-act="war-export" data-id="'+m.id+'">'+ic('download')+'导出 Word</button>'+
+    (d?'<button class="btn sm" data-act="war-discard">放弃修改</button>':'')+
+    '<button class="btn sm pri" data-act="war-save"'+(d?'':' disabled')+'>'+ic('check')+(d?'保存修改':'已保存')+'</button></div></div>';
+  if(!keys.length)h+='<div class="empty"><b>这个备战夹还是空的</b>回到数据大厅，点击数据标题右侧的「备战」把它加进来。<div style="margin-top:12px"><button class="btn sm" data-act="view" data-v="hall">前往数据大厅</button></div></div>';
+  else h+=keys.map(function(t){return warTopicHTML(m,t)}).join('');
+  return h;
+}
+function renderWar(){
+  var m=selM();
+  var h='<div class="court-h"><div><h1>备战夹</h1><p>选好正在备战的辩题后，到数据大厅点击数据标题上的「备战」加入；在这里挑选每个数据标题下要用的论据，保存后可导出 Word。备战夹只引用资料，不会改动数据大厅或数据库；所有授权贡献者共用同一份。</p></div>'+
+    '<div class="ctl"><button class="btn pri" data-act="war-new">'+ic('plus')+'新建备战辩题</button></div></div>';
+  if(!WAR.motions.length){
+    h+='<div class="empty"><b>还没有备战辩题</b>新建一个正在备战的辩题，再回到数据大厅，点击数据标题上的「备战」。</div>';
+  }else{
+    h+='<div class="war-grid"><div class="war-list">'+WAR.motions.map(function(x){
+      var st=mStats(x);
+      return '<button class="wm'+(m&&x.id===m.id?' on':'')+'" data-act="war-pick" data-id="'+x.id+'" aria-pressed="'+!!(m&&x.id===m.id)+'"><b>'+esc(x.name)+'</b>'+
+        '<span class="row">'+(x.active?'<span class="tag ver">备战中</span>':'<span class="tag offt">已结束</span>')+(isDirty(x)?'<span class="tag mod">未保存</span>':'')+'</span>'+
+        '<span class="hint">'+st.t+' 个数据标题 · '+st.n+' 条论据</span></button>';
+    }).join('')+'</div><div class="war-main">'+warDetail(m)+'</div></div>';
+  }
+  $('#v-war').innerHTML=h;
+}
+function focusChk(t,id){$$('#v-war [data-act="war-chk"]').forEach(function(c){if(c.dataset.id===id&&c.dataset.t===t)c.focus({preventScroll:true})})}
+function openWarName(m){
+  if(!need('contributor','管理备战辩题'))return;
+  modal({title:m?'重命名备战辩题':'新建备战辩题',
+    body:'<div class="field"><label for="w-n">辩题</label><input class="in" id="w-n" maxlength="80" value="'+esc(m?m.name:'')+'" placeholder="例如：人工智能利大于弊"></div><div class="err" id="w-e" role="alert"></div>'+
+      (m?'':'<div class="hint">新建后默认为「备战中」，数据大厅的备战按钮会加入正在备战的辩题。</div>'),
+    actions:[{label:'取消'},{label:m?'保存':'创建',cls:'pri',fn:function(){
+      var n=$('#w-n').value.trim();
+      if(n.length<2){$('#w-e').textContent='请填写辩题（至少 2 个字）';return false}
+      if(WAR.motions.some(function(x){return x!==m&&x.name.toLowerCase()===n.toLowerCase()})){$('#w-e').textContent='已经有同名的备战辩题';return false}
+      if(m){m.name=n;API.War.renameMotion(m.id,n).catch(wcatch);toast('已重命名','ok');renderWar()}
+      else{API.War.createMotion(n,cu().id,cu().name).then(function(row){ui.warSel=row.id;return refresh().then(function(){toast('已创建备战辩题','ok')})}).catch(wcatch)}
+    }}]});
+}
+
+/* ---------- Word export (follows the user's 数据标题 / 出處 / 參考 table layout) ---------- */
+function xe(s){return String(s==null?'':s).replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F  ]/g,'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+var CRCT=(function(){var t=new Uint32Array(256);for(var n=0;n<256;n++){var c=n;for(var k=0;k<8;k++)c=c&1?0xEDB88320^(c>>>1):c>>>1;t[n]=c>>>0}return t})();
+function crc32(b){var c=0xFFFFFFFF;for(var i=0;i<b.length;i++)c=CRCT[(c^b[i])&255]^(c>>>8);return (c^0xFFFFFFFF)>>>0}
+function zipBlob(files){
+  var enc=new TextEncoder(),parts=[],cd=[],off=0,n=new Date();
+  var tm=((n.getHours()<<11)|(n.getMinutes()<<5)|(n.getSeconds()>>1))&0xFFFF,dt=(((n.getFullYear()-1980)<<9)|((n.getMonth()+1)<<5)|n.getDate())&0xFFFF;
+  files.forEach(function(f){
+    var nm=enc.encode(f.n),d=enc.encode(f.d),crc=crc32(d),sz=d.length;
+    var lh=new DataView(new ArrayBuffer(30));
+    lh.setUint32(0,0x04034b50,true);lh.setUint16(4,20,true);lh.setUint16(6,0x0800,true);lh.setUint16(10,tm,true);lh.setUint16(12,dt,true);
+    lh.setUint32(14,crc,true);lh.setUint32(18,sz,true);lh.setUint32(22,sz,true);lh.setUint16(26,nm.length,true);
+    parts.push(new Uint8Array(lh.buffer),nm,d);
+    var ch=new DataView(new ArrayBuffer(46));
+    ch.setUint32(0,0x02014b50,true);ch.setUint16(4,20,true);ch.setUint16(6,20,true);ch.setUint16(8,0x0800,true);ch.setUint16(12,tm,true);ch.setUint16(14,dt,true);
+    ch.setUint32(16,crc,true);ch.setUint32(20,sz,true);ch.setUint32(24,sz,true);ch.setUint16(28,nm.length,true);ch.setUint32(42,off,true);
+    cd.push(new Uint8Array(ch.buffer),nm);
+    off+=30+nm.length+sz;
+  });
+  var cl=cd.reduce(function(s,p){return s+p.length},0),eo=new DataView(new ArrayBuffer(22));
+  eo.setUint32(0,0x06054b50,true);eo.setUint16(8,files.length,true);eo.setUint16(10,files.length,true);eo.setUint32(12,cl,true);eo.setUint32(16,off,true);
+  return new Blob(parts.concat(cd,[new Uint8Array(eo.buffer)]),{type:'application/vnd.openxmlformats-officedocument.wordprocessingml.document'});
+}
+var WNS='xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"';
+function docxParts(groups){
+  var rels=[],rid=0,HEAD='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>';
+  var sd=function(s){return '<w:'+s+' w:val="single" w:sz="8" w:space="0" w:color="000000"/>'};
+  var BORD='<w:tcBorders>'+sd('top')+sd('left')+sd('bottom')+sd('right')+'</w:tcBorders>';
+  var mg=function(s){return '<w:'+s+' w:w="100" w:type="dxa"/>'};
+  var MAR='<w:tcMar>'+mg('top')+mg('left')+mg('bottom')+mg('right')+'</w:tcMar>';
+  function run(t,b,sz){
+    var pr=(b?'<w:b/><w:bCs/>':'')+(sz?'<w:sz w:val="'+sz+'"/><w:szCs w:val="'+sz+'"/>':'');
+    return '<w:r>'+(pr?'<w:rPr>'+pr+'</w:rPr>':'')+'<w:t xml:space="preserve">'+xe(t)+'</w:t></w:r>';
+  }
+  function para(inner,ppr){return '<w:p>'+(ppr?'<w:pPr>'+ppr+'</w:pPr>':'')+(inner||'')+'</w:p>'}
+  function bullet(t){return para(run(t),'<w:numPr><w:ilvl w:val="0"/><w:numId w:val="1"/></w:numPr>')}
+  function link(url){
+    var id='rId'+(100+(++rid));
+    rels.push('<Relationship Id="'+id+'" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/hyperlink" Target="'+xe(url)+'" TargetMode="External"/>');
+    return '<w:hyperlink r:id="'+id+'" w:history="1"><w:r><w:rPr><w:rStyle w:val="Hyperlink"/><w:b/><w:bCs/></w:rPr><w:t xml:space="preserve">'+xe(url)+'</w:t></w:r></w:hyperlink>';
+  }
+  function row(inner,h){return '<w:tr>'+(h?'<w:trPr><w:trHeight w:val="'+h+'"/></w:trPr>':'')+'<w:tc><w:tcPr><w:tcW w:w="9026" w:type="dxa"/>'+BORD+MAR+'<w:vAlign w:val="center"/></w:tcPr>'+inner+'</w:tc></w:tr>'}
+  function entryRow(e){
+    var isUrl=e.src.t==='url'&&/^https?:\/\//i.test(e.src.v),nm=e.srcName||(e.src.t==='url'?host(e.src.v):e.src.v);
+    var lines=String(e.content).split(/\r?\n+/).map(function(s){return s.trim()}).filter(Boolean);
+    return row(
+      para(run('出處：'+nm+(e.year?'（'+fdate(e).replace(/ /g,'')+'）':''),true))+
+      lines.map(bullet).join('')+
+      para('')+
+      para(run('參考：',true)+(isUrl?link(e.src.v):run(e.src.v+'（文献文件）',true)))+
+      para(''));
+  }
+  var body=groups.map(function(g,i){
+    return (i?para(''):'')+'<w:tbl><w:tblPr><w:tblW w:w="9026" w:type="dxa"/><w:tblCellMar><w:top w:w="15" w:type="dxa"/><w:left w:w="15" w:type="dxa"/><w:bottom w:w="15" w:type="dxa"/><w:right w:w="15" w:type="dxa"/></w:tblCellMar>'+
+      '<w:tblLook w:val="04A0" w:firstRow="1" w:lastRow="0" w:firstColumn="1" w:lastColumn="0" w:noHBand="0" w:noVBand="1"/></w:tblPr><w:tblGrid><w:gridCol w:w="9026"/></w:tblGrid>'+
+      row(para(run(g.t,true,36),'<w:jc w:val="center"/>'),1000)+g.es.map(entryRow).join('')+'</w:tbl>';
+  }).join('');
+  var doc=HEAD+'<w:document '+WNS+'><w:body>'+body+para('')+
+    '<w:sectPr><w:pgSz w:w="12240" w:h="15840"/><w:pgMar w:top="1440" w:right="1440" w:bottom="1440" w:left="1440" w:header="720" w:footer="720" w:gutter="0"/><w:cols w:space="720"/><w:docGrid w:linePitch="360"/></w:sectPr></w:body></w:document>';
+  var styles=HEAD+'<w:styles '+WNS+'><w:docDefaults><w:rPrDefault><w:rPr><w:rFonts w:ascii="Aptos" w:hAnsi="Aptos" w:eastAsia="等线" w:cs="Times New Roman"/><w:sz w:val="24"/><w:szCs w:val="24"/><w:lang w:val="en-GB" w:eastAsia="zh-CN" w:bidi="ar-SA"/></w:rPr></w:rPrDefault>'+
+    '<w:pPrDefault><w:pPr><w:spacing w:after="160" w:line="278" w:lineRule="auto"/></w:pPr></w:pPrDefault></w:docDefaults>'+
+    '<w:style w:type="paragraph" w:default="1" w:styleId="Normal"><w:name w:val="Normal"/><w:qFormat/></w:style>'+
+    '<w:style w:type="character" w:default="1" w:styleId="DefaultParagraphFont"><w:name w:val="Default Paragraph Font"/><w:uiPriority w:val="1"/><w:semiHidden/><w:unhideWhenUsed/></w:style>'+
+    '<w:style w:type="table" w:default="1" w:styleId="TableNormal"><w:name w:val="Normal Table"/><w:uiPriority w:val="99"/><w:semiHidden/><w:unhideWhenUsed/><w:tblPr><w:tblInd w:w="0" w:type="dxa"/><w:tblCellMar><w:top w:w="0" w:type="dxa"/><w:left w:w="108" w:type="dxa"/><w:bottom w:w="0" w:type="dxa"/><w:right w:w="108" w:type="dxa"/></w:tblCellMar></w:tblPr></w:style>'+
+    '<w:style w:type="character" w:styleId="Hyperlink"><w:name w:val="Hyperlink"/><w:basedOn w:val="DefaultParagraphFont"/><w:uiPriority w:val="99"/><w:unhideWhenUsed/><w:rPr><w:color w:val="467886"/><w:u w:val="single"/></w:rPr></w:style></w:styles>';
+  var numbering=HEAD+'<w:numbering '+WNS+'><w:abstractNum w:abstractNumId="0"><w:multiLevelType w:val="hybridMultilevel"/><w:lvl w:ilvl="0"><w:start w:val="1"/><w:numFmt w:val="bullet"/><w:lvlText w:val=""/><w:lvlJc w:val="left"/>'+
+    '<w:pPr><w:tabs><w:tab w:val="num" w:pos="720"/></w:tabs><w:ind w:left="720" w:hanging="360"/></w:pPr><w:rPr><w:rFonts w:ascii="Symbol" w:hAnsi="Symbol" w:hint="default"/><w:sz w:val="20"/></w:rPr></w:lvl></w:abstractNum>'+
+    '<w:num w:numId="1"><w:abstractNumId w:val="0"/></w:num></w:numbering>';
+  var RT='http://schemas.openxmlformats.org/officeDocument/2006/relationships/';
+  return [
+    {n:'[Content_Types].xml',d:HEAD+'<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/>'+
+      '<Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/><Override PartName="/word/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml"/><Override PartName="/word/numbering.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.numbering+xml"/></Types>'},
+    {n:'_rels/.rels',d:HEAD+'<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="'+RT+'officeDocument" Target="word/document.xml"/></Relationships>'},
+    {n:'word/document.xml',d:doc},
+    {n:'word/styles.xml',d:styles},
+    {n:'word/numbering.xml',d:numbering},
+    {n:'word/_rels/document.xml.rels',d:HEAD+'<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="'+RT+'numbering" Target="numbering.xml"/><Relationship Id="rId2" Type="'+RT+'styles" Target="styles.xml"/>'+rels.join('')+'</Relationships>'}
+  ];
+}
+function exportWord(m){
+  var groups=Object.keys(m.items).map(function(t){return {t:t,es:liveIds(m,t).map(getE).filter(Boolean)}}).filter(function(g){return g.es.length});
+  if(!groups.length){toast('这个备战夹还没有选中的论据，无法导出','warn');return}
+  var blob=zipBlob(docxParts(groups)),name='备战夹_'+m.name.replace(/[\\\/:*?"<>|\s]+/g,'_')+'.docx';
+  var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;a.style.display='none';document.body.appendChild(a);a.click();
+  setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},1500);
+  toast('已导出 '+groups.length+' 个数据标题、'+groups.reduce(function(s,g){return s+g.es.length},0)+' 条论据'+(isDirty(m)?'（导出的是已保存的内容，未保存的修改不包含在内）':''),isDirty(m)?'warn':'ok',isDirty(m)?4200:2800);
+}
+
+/* ---------- motion engine ---------- */
+var EASE='cubic-bezier(.2,.8,.2,1)';
+function rm(){return document.documentElement.getAttribute('data-motion')==='reduce'||(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)}
+
+/* FLIP: remember where every group sits, re-render, then animate each one from its old spot. */
+function flipHall(fn){
+  var first={};
+  $$('#v-hall .topic').forEach(function(el){first[el.dataset.t]=el.getBoundingClientRect().top});
+  fn();
+  if(rm())return;
+  $$('#v-hall .topic').forEach(function(el,i){
+    var old=first[el.dataset.t],now=el.getBoundingClientRect().top;
+    if(old===undefined)el.animate([{opacity:0,transform:'translateY(16px)'},{opacity:1,transform:'none'}],{duration:380,easing:EASE,delay:Math.min(i,8)*30,fill:'backwards'});
+    else if(Math.abs(old-now)>2)el.animate([{transform:'translateY('+(old-now)+'px)'},{transform:'none'}],{duration:480,easing:EASE});
+  });
+}
+
+/* Staggered entrance for what is on screen; groups below the fold reveal as they scroll into view. */
+var revealIO=null;
+function playEnter(){
+  if(rm()||ui.view!=='hall')return;
+  var fold=innerHeight,tps=$$('#v-hall .topic'),n=0,below=[];
+  tps.forEach(function(el){
+    if(el.getBoundingClientRect().top<fold*.92){
+      el.style.setProperty('--i',Math.min(n++,9));
+      $$('.card',el).forEach(function(c,j){c.style.setProperty('--j',Math.min(j,6))});
+      el.classList.add('enter');
+    }else below.push(el);
+  });
+  setTimeout(function(){tps.forEach(function(el){el.classList.remove('enter')})},1700);
+  armReveal(below);
+}
+function armReveal(els){
+  if(revealIO){revealIO.disconnect();revealIO=null}
+  if(!els.length||!('IntersectionObserver' in window))return;
+  var alive=false,io=new IntersectionObserver(function(es){
+    alive=true;
+    es.forEach(function(en){
+      if(en.isIntersecting){var t=en.target;t.classList.remove('pre');t.classList.add('shown');io.unobserve(t);setTimeout(function(){t.classList.remove('shown')},900)}
+    });
+  },{rootMargin:'0px 0px -6% 0px'});
+  revealIO=io;
+  els.forEach(function(el){el.classList.add('pre');io.observe(el)});
+  setTimeout(function(){if(!alive)els.forEach(function(el){el.classList.remove('pre')})},1500);
+}
+
+/* Vote: particle burst, pop, and the number rolls in. */
+function afterVote(id,kind,active){
+  if(rm())return;
+  var b=$('[data-act="vote"][data-v="'+kind+'"][data-id="'+id+'"]');if(!b)return;
+  var cn=$('.cn',b);
+  if(cn)cn.animate([{transform:'translateY(70%)',opacity:0},{transform:'none',opacity:1}],{duration:340,easing:EASE});
+  if(!active)return;
+  var r=b.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2,col=kind==='up'?'var(--ok)':'var(--bad)';
+  for(var i=0;i<10;i++){
+    var p=document.createElement('i');p.className='pt';p.style.cssText='left:'+cx+'px;top:'+cy+'px;background:'+col;
+    document.body.appendChild(p);
+    var ang=Math.PI*2*i/10+Math.random()*.5,dist=22+Math.random()*26,dx=Math.cos(ang)*dist,dy=Math.sin(ang)*dist+(kind==='up'?-10:8);
+    var a=p.animate([{transform:'translate(-50%,-50%) scale(1)',opacity:1},{transform:'translate(calc(-50% + '+dx+'px),calc(-50% + '+dy+'px)) scale(0)',opacity:0}],{duration:520+Math.random()*180,easing:'cubic-bezier(.1,.7,.3,1)'});
+    a.onfinish=(function(el){return function(){el.remove()}})(p);
+  }
+  b.animate([{transform:'scale(1)'},{transform:'scale(1.22)'},{transform:'scale(.94)'},{transform:'scale(1)'}],{duration:420,easing:'ease-out'});
+}
+
+/* Theme change: a circular reveal that grows from the control you clicked (View Transitions API when available). */
+function withThemeTransition(ev,fn){
+  var ox=ev&&ev.clientX!=null?ev.clientX:innerWidth/2,oy=ev&&ev.clientY!=null?ev.clientY:innerHeight/2;
+  if(rm()||!document.startViewTransition){fn();return}
+  var vt;
+  try{vt=document.startViewTransition(function(){fn()})}catch(e){fn();return}
+  vt.ready.then(function(){
+    var rad=Math.hypot(Math.max(ox,innerWidth-ox),Math.max(oy,innerHeight-oy));
+    document.documentElement.animate({clipPath:['circle(0px at '+ox+'px '+oy+'px)','circle('+rad+'px at '+ox+'px '+oy+'px)']},{duration:650,easing:'cubic-bezier(.4,0,.2,1)',pseudoElement:'::view-transition-new(root)'});
+  }).catch(function(){});
+}
+
+function countUp(el){
+  var to=+el.dataset.n;
+  if(rm()||!to){el.textContent=to;return}
+  var t0=performance.now(),d=800;
+  el.textContent='0';
+  (function f(now){var p=Math.min(1,(now-t0)/d),e=1-Math.pow(1-p,3);el.textContent=Math.round(to*e);if(p<1)requestAnimationFrame(f)})(t0);
+}
+
+/* Arbitration: the case flashes its verdict colour, then folds away before the data is removed. */
+function leaveCase(id,kind,done){
+  var b=$('[data-act="court-open"][data-id="'+id+'"]'),el=b&&b.closest('.case');
+  if(!el||rm()){done();return}
+  el.classList.add(kind==='pass'?'gone-bad':'gone-ok');
+  var h=el.offsetHeight;el.style.overflow='hidden';
+  setTimeout(function(){
+    var a=el.animate([
+      {opacity:1,transform:'none',height:h+'px',marginBottom:'14px'},
+      {opacity:0,transform:'translateX('+(kind==='pass'?'48px':'-48px')+') scale(.97)',height:h+'px',marginBottom:'14px',offset:.5},
+      {opacity:0,transform:'translateX('+(kind==='pass'?'48px':'-48px')+') scale(.97)',height:'0px',marginBottom:'0px',paddingTop:'0px',paddingBottom:'0px',borderWidth:'0px'}
+    ],{duration:620,easing:EASE,fill:'forwards'});
+    a.onfinish=done;
+  },260);
+}
+
+/* Ripple on every pressable control. */
+document.addEventListener('pointerdown',function(ev){
+  if(rm()||ev.button>0)return;
+  var b=ev.target.closest&&ev.target.closest('.btn,.vote,.src,.fi,.pal,.sw');
+  if(!b)return;
+  var r=b.getBoundingClientRect(),s=Math.max(r.width,r.height)*2.2,sp=document.createElement('span');
+  sp.className='rip';sp.style.cssText='width:'+s+'px;height:'+s+'px;left:'+(ev.clientX-r.left-s/2)+'px;top:'+(ev.clientY-r.top-s/2)+'px';
+  b.appendChild(sp);
+  var a=sp.animate([{transform:'scale(0)',opacity:.28},{transform:'scale(1)',opacity:0}],{duration:620,easing:'cubic-bezier(.2,.7,.2,1)'});
+  a.onfinish=function(){sp.remove()};
+},{passive:true});
+
+/* Cursor spotlight inside a data row. */
+var spRaf=0;
+$('#v-hall').addEventListener('pointermove',function(ev){
+  if(ev.pointerType==='touch'||rm()||spRaf)return;
+  var c=ev.target.closest&&ev.target.closest('.card');if(!c)return;
+  var x=ev.clientX,y=ev.clientY;
+  spRaf=requestAnimationFrame(function(){spRaf=0;var r=c.getBoundingClientRect();c.style.setProperty('--mx',(x-r.left)+'px');c.style.setProperty('--my',(y-r.top)+'px')});
+},{passive:true});
+
+/* Ambient glow that eases toward the pointer. */
+(function(){
+  var g=$('#glow'),gx=innerWidth/2,gy=innerHeight*.3,tx=gx,ty=gy,raf=0;
+  function loop(){
+    gx+=(tx-gx)*.08;gy+=(ty-gy)*.08;
+    g.style.transform='translate3d('+gx.toFixed(1)+'px,'+gy.toFixed(1)+'px,0)';
+    raf=(Math.abs(tx-gx)+Math.abs(ty-gy)>.5)?requestAnimationFrame(loop):0;
+  }
+  window.addEventListener('pointermove',function(ev){
+    if(ev.pointerType==='touch'||rm())return;
+    tx=ev.clientX;ty=ev.clientY;if(!raf)raf=requestAnimationFrame(loop);
+  },{passive:true});
+})();
+
+/* Reading-progress line under the top bar. */
+(function(){
+  var bar=$('#top'),tick=0;
+  function upd(){tick=0;var h=document.documentElement.scrollHeight-innerHeight,p=h>0?Math.min(1,scrollY/h):0;bar.style.setProperty('--sp',p.toFixed(4));bar.classList.toggle('scrolled',scrollY>8)}
+  window.addEventListener('scroll',function(){if(!tick)tick=requestAnimationFrame(upd)},{passive:true});
+  upd();
+})();
+
+/* ---------- events ---------- */
+document.addEventListener('click',function(ev){
+  var t=ev.target.closest('[data-act]');
+  if(!t){if(!ev.target.closest('#pop'))closePop();return}
+  var a=t.dataset.act,id=t.dataset.id,e=id?getE(id):null;
+  if(a!=='menu')closePop();
+  switch(a){
+    case 'topic':{var s=t.closest('.topic'),name=t.dataset.t;if(ui.q.trim())break;var c=s.classList.toggle('closed');ui.collapsed[name]=c;t.setAttribute('aria-expanded',String(!c));
+      if(!c&&!rm())$$('.card',s).forEach(function(cd,j){cd.animate([{opacity:0,transform:'translateY(12px)'},{opacity:1,transform:'none'}],{duration:360,delay:90+Math.min(j,6)*50,easing:EASE,fill:'backwards'})});
+      break}
+    case 'expand':ui.collapsed={};$$('#v-hall .topic.closed').forEach(function(el,i){setTimeout(function(){el.classList.remove('closed');var hd=$('.topic-head',el);if(hd)hd.setAttribute('aria-expanded','true')},rm()?0:i*45)});break;
+    case 'collapse':$$('#v-hall .topic:not(.closed)').forEach(function(el,i){setTimeout(function(){el.classList.add('closed');ui.collapsed[el.dataset.t]=true;var hd=$('.topic-head',el);if(hd)hd.setAttribute('aria-expanded','false')},rm()?0:i*45)});break;
+    case 'dom':ui.dom=t.dataset.v||null;flipHall(render);break;
+    case 'form':ui.form=t.dataset.v||null;flipHall(render);break;
+    case 'clear':ui.dom=null;ui.form=null;ui.q='';$('#q').value='';flipHall(render);break;
+    case 'clearq':ui.q='';$('#q').value='';flipHall(render);break;
+    case 'sidetoggle':ui.side[t.dataset.g]=!ui.side[t.dataset.g];renderSide();break;
+    case 'drawer':$('#side').classList.toggle('open');$('#scrim').classList.toggle('show');break;
+    case 'view':setView(t.dataset.v);break;
+    case 'settings':setView(ui.view==='settings'?'hall':'settings');break;
+    case 'auth':openAuth('login');break;
+    case 'auth-reg':openAuth('register');break;
+    case 'auth-switch':ev.preventDefault();closeModal();openAuth(t.dataset.v);break;
+    case 'new':openNew();break;
+    case 'mclose':closeModal();break;
+    case 'logout':doLogout();break;
+    case 'reload':refresh().then(function(){toast('数据已刷新','ok')});break;
+    case 'name-go':saveMyName();break;
+    case 'key-go':redeemKey();break;
+    case 'down':lowerRole(t.dataset.v);break;
+    case 'mode-set':{var mv=t.dataset.v;withThemeTransition(ev,function(){P.mode=mv;savePrefs();applyTheme();render()});break}
+    case 'pal':{var pv=t.dataset.v;withThemeTransition(ev,function(){P.palette=pv;savePrefs();applyTheme();render()});break}
+    case 'acc':{var av=t.dataset.v===''?null:+t.dataset.v;withThemeTransition(ev,function(){P.accent=av;savePrefs();applyTheme();render()});break}
+    case 'motion':P.motion=t.dataset.v;savePrefs();applyTheme();render();break;
+    case 'b-copy':copyText($('#b-out').value,'已复制 JSON');break;
+    case 'b-import':importData();break;
+    case 'adm-reload':loadAdmin();break;
+    case 'adm-ban':{var bn=t.dataset.n,bv=t.dataset.v==='1';
+      confirmDlg(bv?'限制账户':'解除限制',bv?'限制「'+esc(bn)+'」后，他仍可浏览资料，但不能点赞、录入、上诉或使用备战夹。':'解除对「'+esc(bn)+'」的限制，恢复原来的身份与权限。',bv?'确认限制':'确认解除',bv,function(){
+        API.Admin.setBanned(id,bv).then(function(){toast(bv?'已限制该账户':'已解除限制','ok');return loadAdmin(true)}).catch(admError)});break}
+    case 'adm-key-new':admNewKey();break;
+    case 'adm-key-revoke':{var kn=t.dataset.n;confirmDlg('作废密钥','作废后「'+esc(kn)+'」这个密钥立刻失效，已经用它提权的人不受影响。','确认作废',true,function(){
+        API.Admin.revokeKey(id).then(function(){toast('密钥已作废','ok');return loadAdmin(true)}).catch(admError)});break}
+    case 'menu':{
+      if(!e)break;var key='menu'+id;
+      if(ui.popKey===key){closePop();break}
+      closePop();t.setAttribute('aria-expanded','true');openPop(t,menuHTML(e),key);break}
+    case 'm-edit':openEdit(e);break;
+    case 'm-appeal':openAppeal(e);break;
+    case 'm-withdraw':doWithdraw(e);break;
+    case 'm-copy':copyText('「'+e.topic+'」'+snip(e.content,60)+'｜'+(e.year?fdate(e)+'｜':'')+'来源：'+(e.srcName?e.srcName+'，':'')+(e.src.t==='url'?e.src.v:e.src.v+'（文献文件）')+'｜录入：'+e.author+' '+fmt(e.ts)+'｜国库 DEBATE VAULT','已复制引用格式');break;
+    case 'm-verify':{var nv=!e.verified;e.verified=nv;render();API.Admin.verify(id,nv).then(function(){toast(nv?'已标记为官方已核实':'已取消官方核实','ok')}).catch(function(er){e.verified=!nv;render();toast(errMsg(er),'bad')});break}
+    case 'm-offline':{var no=!e.offline;e.offline=no;render();API.Admin.offline(id,no).then(function(){toast(no?'资料已下架，普通用户不可见':'资料已重新上架','ok')}).catch(function(er){e.offline=!no;render();toast(errMsg(er),'bad')});break}
+    case 'vote':{
+      if(!need('member','点赞或点踩'))break;
+      var me=cu().id,k2=t.dataset.v,o=k2==='up'?'down':'up';
+      var had=e[k2].indexOf(me)>-1;
+      e[o]=e[o].filter(function(x){return x!==me});
+      e[k2]=e[k2].filter(function(x){return x!==me});
+      if(!had)e[k2].push(me);
+      render();afterVote(id,k2,!had);
+      API.Data.vote(id,k2==='up'?1:-1).catch(function(er){toast(errMsg(er),'bad');refresh()});break}
+    case 'hist':openHist(e);break;
+    case 'dl':simDownload(e);break;
+    case 'war-add':warToggle(t.dataset.t);break;
+    case 'war-new':openWarName(null);break;
+    case 'war-rename':{var rm1=warM(id);if(rm1)openWarName(rm1);break}
+    case 'war-pick':ui.warSel=id;renderWar();break;
+    case 'war-toggle':{var tm=warM(id);if(!tm||!need('contributor','管理备战辩题'))break;tm.active=!tm.active;API.War.setActive(tm.id,tm.active).catch(wcatch);renderWar();toast(tm.active?'已恢复备战':'已结束备战，数据大厅不再向它加入','ok');break}
+    case 'war-del':{var dm=warM(id);if(!dm||!need('contributor','管理备战辩题'))break;
+      confirmDlg('删除备战辩题','将删除「'+esc(dm.name)+'」及其备战夹内的全部选择（所有人共用，不可恢复）。数据大厅与数据库里的资料不受影响。','确认删除',true,function(){
+        WAR.motions=WAR.motions.filter(function(x){return x!==dm});delete ui.warDraft[dm.id];if(ui.warSel===dm.id)ui.warSel=null;API.War.deleteMotion(dm.id).catch(wcatch);renderWar();toast('已删除备战辩题','ok')});break}
+    case 'war-chk':{var cm=selM();if(!cm||!need('contributor','使用备战夹')){renderWar();break}
+      var ct=t.dataset.t,arr=curIds(cm,ct).slice(),ix=arr.indexOf(id);
+      if(t.checked&&ix<0)arr.push(id);else if(!t.checked&&ix>-1)arr.splice(ix,1);
+      setDraft(cm,ct,arr);renderWar();focusChk(ct,id);break}
+    case 'war-all':{var am=selM();if(!am||!need('contributor','使用备战夹'))break;setDraft(am,t.dataset.t,topicIds(t.dataset.t));renderWar();break}
+    case 'war-none':{var nm0=selM();if(!nm0||!need('contributor','使用备战夹'))break;setDraft(nm0,t.dataset.t,[]);renderWar();break}
+    case 'war-drop':{var pm=selM(),pt=t.dataset.t;if(!pm||!need('contributor','使用备战夹'))break;
+      confirmDlg('移出备战夹','将「'+esc(pt)+'」从「'+esc(pm.name)+'」备战夹中移出，该标题下已选的论据也会一并清除。数据大厅里的资料不受影响。','确认移出',true,function(){
+        delete pm.items[pt];dropDraft(pm,pt);API.War.removeItem(pm.id,pt).catch(wcatch);renderWar();toast('已移出备战夹','ok')});break}
+    case 'war-save':{var sm=selM();if(!sm||!need('contributor','保存备战夹'))break;
+      var dd=ui.warDraft[sm.id]||{},ps=[];Object.keys(dd).forEach(function(k){if(sm.items[k]){sm.items[k].ids=orderIds(dd[k]);ps.push(API.War.saveItem(sm.id,k,sm.items[k].ids,cu().name))}});
+      delete ui.warDraft[sm.id];Promise.all(ps).catch(wcatch);renderWar();toast('备战夹已保存','ok');break}
+    case 'war-discard':{var xm=selM();if(xm){delete ui.warDraft[xm.id];renderWar();toast('已放弃未保存的修改')}break}
+    case 'war-export':{var em=warM(id);if(em&&need('contributor','导出 Word'))exportWord(em);break}
+    case 'court-open':ui.courtOpen[id]=!ui.courtOpen[id];renderCourt();break;
+    case 'court-pass':courtPass(e);break;
+    case 'court-reject':courtReject(e);break;
+  }
+});
+$('#v-hall').addEventListener('change',function(ev){if(ev.target.id==='sort'){ui.sort=ev.target.value;flipHall(renderHall)}});
+$('#v-admin').addEventListener('change',function(ev){
+  var t=ev.target;if(!t.dataset||t.dataset.act!=='adm-role')return;
+  var u=(ADM.users||[]).filter(function(x){return x.id===t.dataset.id})[0],nr=t.value;if(!u||u.role===nr)return;
+  API.Admin.setRole(u.id,nr).then(function(){toast('已把「'+u.name+'」设为「'+ROLE[nr]+'」','ok');return loadAdmin(true)}).catch(function(er){t.value=u.role;toast(errMsg(er),'bad',4200)});
+});
+$('#v-settings').addEventListener('keydown',function(ev){
+  if(ev.key==='Enter'&&ev.target.id==='nm-in'){ev.preventDefault();saveMyName()}
+});
+$('#v-settings').addEventListener('keydown',function(ev){
+  if(ev.key==='Enter'&&ev.target.id==='k-in'){ev.preventDefault();var b=$('[data-act="key-go"]');if(b)b.click()}
+});
+var qt;$('#q').addEventListener('input',function(ev){
+  clearTimeout(qt);var v=ev.target.value;
+  qt=setTimeout(function(){ui.q=v;if(ui.view!=='hall'){setView('hall');return}flipHall(function(){renderSide();renderHall()})},110);
+});
+document.addEventListener('keydown',function(ev){
+  if(ev.key==='Escape'){if(mhost.firstChild)closeModal();else if(!pop.hidden)closePop();else if($('#side').classList.contains('open')){$('#side').classList.remove('open');$('#scrim').classList.remove('show')}}
+  var tag=(document.activeElement&&document.activeElement.tagName)||'';
+  if(ev.key==='/'&&!/INPUT|TEXTAREA|SELECT/.test(tag)&&!mhost.firstChild){ev.preventDefault();$('#q').focus()}
+});
+window.addEventListener('resize',closePop);
+window.addEventListener('hashchange',function(){var h=location.hash.slice(1);if(VORDER.indexOf(h)>-1&&h!==ui.view)setView(h)});
+try{matchMedia('(prefers-color-scheme: light)').addEventListener('change',function(){if(P.mode==='system'){applyTheme();render()}})}catch(e){}
+
+/* ---------- boot ---------- */
+applyTheme();
+var wantHash=location.hash.slice(1);
+render();syncViewVisibility();
+if(!ONLINE){ui.ready=true;render()}
+else{
+  API.subscribe(function(){refresh()});
+  API.Auth.onChange(function(u){
+    onAuthUser(u);
+    /* honour a #war / #court / #admin / #settings link once the role is known */
+    if(wantHash){var h=wantHash;wantHash=null;setTimeout(function(){
+      if(h==='settings'||(h==='war'&&rk()>=2)||((h==='court'||h==='admin')&&role()==='admin'))setView(h)},900)}
+  });
+}
+})();
+</script>
+</body>
+</html>
+
+</body></html>
